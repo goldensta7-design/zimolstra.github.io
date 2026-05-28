@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anistra — Your Anime Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   ANISTRA — Complete Stylesheet
+   Cyberpunk Dark Anime Aesthetic
+═══════════════════════════════════════════════ */
+
+:root {
+  --bg:          #05050e;
+  --bg2:         #0a0a18;
+  --bg3:         #0f0f20;
+  --glass:       rgba(255,255,255,0.04);
+  --glass-b:     rgba(120,60,255,0.2);
+  --purple:      #7c3aed;
+  --purple-l:    #a78bfa;
+  --cyan:        #06b6d4;
+  --pink:        #ec4899;
+  --gold:        #f59e0b;
+  --text:        #eeeeff;
+  --text2:       #8888aa;
+  --text3:       #44446a;
+  --grad:        linear-gradient(135deg,#7c3aed,#06b6d4);
+  --grad2:       linear-gradient(135deg,#ec4899,#7c3aed);
+  --r:           14px;
+  --t:           all .3s cubic-bezier(.4,0,.2,1);
+  --font-d:      'Orbitron',sans-serif;
+  --font-b:      'Exo 2',sans-serif;
+  --font-u:      'Rajdhani',sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;cursor:none}
+
+/* Custom cursor */
+.cursor{position:fixed;pointer-events:none;z-index:99999;mix-blend-mode:screen}
+.cursor-dot{width:8px;height:8px;background:#a78bfa;border-radius:50%;transform:translate(-50%,-50%);transition:transform .1s}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(167,139,250,.5);border-radius:50%;transform:translate(-50%,-50%);transition:transform .12s,width .2s,height .2s,opacity .2s}
+.cursor-ring.click{width:20px;height:20px;opacity:.5}
+body:hover .cursor-dot{transform:translate(-50%,-50%) scale(1)}
+
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{cursor:none;font-family:inherit;border:none;outline:none}
+input,select,textarea{font-family:inherit;outline:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
+
+/* ───────────────────────────────────
+   PRELOADER
+─────────────────────────────────── */
+#preloader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
+  transition:opacity .6s ease,visibility .6s ease
+}
+#preloader.out{opacity:0;visibility:hidden}
+.pre-logo{
+  font-family:var(--font-d);font-size:3rem;font-weight:900;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:8px;
+  animation:glitch 2s infinite
+}
+.pre-sub{
+  font-family:var(--font-u);letter-spacing:6px;font-size:.8rem;
+  color:var(--text3);text-transform:uppercase;
+  animation:fadeUp .8s .3s both
+}
+.pre-track{width:220px;height:2px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.pre-fill{height:100%;background:var(--grad);animation:load 2s ease forwards}
+
+@keyframes load{0%{width:0}60%{width:75%}100%{width:100%}}
+@keyframes glitch{
+  0%,90%,100%{text-shadow:0 0 20px rgba(124,58,237,.6)}
+  92%{text-shadow:-3px 0 #ec4899,3px 0 #06b6d4}
+  95%{text-shadow:3px 0 #7c3aed,-2px 0 #06b6d4}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ───────────────────────────────────
+   CANVAS BG
+─────────────────────────────────── */
+#bg-canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7
+}
+
+/* ───────────────────────────────────
+   PAGE
+─────────────────────────────────── */
+#app{position:relative;z-index:1;opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease}
+#app.show{opacity:1;transform:translateY(0)}
+
+/* ───────────────────────────────────
+   NAVBAR
+─────────────────────────────────── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:68px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,5,14,.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--glass-b);
+  transition:var(--t)
+}
+.nav-logo{
+  font-family:var(--font-d);font-size:1.4rem;font-weight:900;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:3px
+}
+.nav-links{
+  display:flex;align-items:center;gap:4px;list-style:none
+}
+.nav-links a{
+  font-family:var(--font-u);font-weight:600;font-size:.9rem;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--text2);
+  padding:8px 16px;border-radius:10px;
+  transition:var(--t);position:relative
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(124,58,237,.15)}
+.nav-links a.active::after{
+  content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);
+  width:20px;height:2px;background:var(--grad);border-radius:2px
+}
+.nav-right{display:flex;gap:8px;align-items:center}
+.nav-user{
+  font-family:var(--font-u);font-size:.85rem;color:var(--text2);
+  padding:6px 12px;background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:8px;display:flex;align-items:center;gap:8px
+}
+.nav-user .av{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:700;color:#fff;font-family:var(--font-d)
+}
+.burger{
+  display:none;flex-direction:column;gap:5px;background:none;padding:6px
+}
+.burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:var(--t)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ───────────────────────────────────
+   BUTTONS
+─────────────────────────────────── */
+.btn{
+  font-family:var(--font-u);font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;font-size:.85rem;
+  padding:10px 22px;border-radius:10px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:var(--t);position:relative;overflow:hidden;cursor:none
+}
+.btn::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,0);transition:background .2s
+}
+.btn:hover::after{background:rgba(255,255,255,.07)}
+.btn-grad{background:var(--grad);color:#fff;box-shadow:0 0 0 rgba(124,58,237,0)}
+.btn-grad:hover{box-shadow:0 8px 30px rgba(124,58,237,.5);transform:translateY(-2px)}
+.btn-outline{
+  border:1px solid var(--purple);color:var(--purple-l);background:transparent
+}
+.btn-outline:hover{background:rgba(124,58,237,.15);box-shadow:0 0 20px rgba(124,58,237,.3)}
+.btn-ghost{
+  border:1px solid rgba(255,255,255,.1);color:var(--text2);background:var(--glass)
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);color:var(--text)}
+.btn-danger{
+  border:1px solid rgba(239,68,68,.4);color:#f87171;background:rgba(239,68,68,.1)
+}
+.btn-danger:hover{background:rgba(239,68,68,.25)}
+.btn-pink{background:var(--grad2);color:#fff}
+.btn-pink:hover{box-shadow:0 8px 25px rgba(236,72,153,.4);transform:translateY(-2px)}
+.btn-sm{padding:7px 16px;font-size:.78rem}
+.btn-xs{padding:5px 12px;font-size:.72rem}
+
+/* ───────────────────────────────────
+   MAIN / PAGES
+─────────────────────────────────── */
+main{padding-top:68px;min-height:100vh}
+.page{display:none;animation:pageIn .4s ease}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.container{max-width:1280px;margin:0 auto;padding:0 24px}
+.section{padding:64px 0}
+.sec-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:36px;gap:16px
+}
+.sec-title{
+  font-family:var(--font-d);font-size:1.1rem;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase
+}
+.sec-title::before{
+  content:'';display:block;width:36px;height:3px;
+  background:var(--grad);border-radius:2px;margin-bottom:8px
+}
+
+/* ───────────────────────────────────
+   HOME — HERO
+─────────────────────────────────── */
+.hero{
+  min-height:calc(100vh - 68px);
+  display:flex;align-items:center;
+  padding:80px 24px;position:relative;overflow:hidden
+}
+.hero-inner{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-tag{
+  font-family:var(--font-u);font-size:.78rem;letter-spacing:5px;
+  text-transform:uppercase;color:var(--cyan);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px
+}
+.hero-tag::before{content:'';display:block;width:28px;height:1px;background:var(--cyan)}
+.hero-h1{
+  font-family:var(--font-d);font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:900;line-height:1.05;margin-bottom:22px
+}
+.hero-h1 em{
+  font-style:normal;background:var(--grad);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent
+}
+.hero-p{color:var(--text2);font-size:1.05rem;max-width:480px;margin-bottom:36px;line-height:1.7}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.hero-stats{
+  display:flex;gap:32px;padding-top:32px;
+  border-top:1px solid rgba(255,255,255,.07)
+}
+.hero-stat-n{
+  font-family:var(--font-d);font-size:1.6rem;font-weight:900;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent
+}
+.hero-stat-l{font-family:var(--font-u);font-size:.75rem;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:2px}
+
+/* Hero right — featured card stack */
+.hero-visual{position:relative;height:460px}
+.hero-card{
+  position:absolute;border-radius:20px;overflow:hidden;
+  border:1px solid var(--glass-b);
+  box-shadow:0 30px 80px rgba(0,0,0,.6)
+}
+.hero-card-main{
+  width:260px;height:380px;right:40px;top:40px;
+  animation:float 4s ease-in-out infinite
+}
+.hero-card-2{
+  width:200px;height:290px;right:220px;top:80px;
+  animation:float 4s 1s ease-in-out infinite;
+  opacity:.7
+}
+.hero-card-3{
+  width:160px;height:230px;right:360px;top:120px;
+  animation:float 4s 2s ease-in-out infinite;
+  opacity:.45
+}
+.hero-card img{width:100%;height:100%;object-fit:cover}
+.hero-badge{
+  position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);
+  background:rgba(5,5,14,.95);backdrop-filter:blur(10px);
+  border:1px solid var(--glass-b);border-radius:10px;
+  padding:8px 14px;white-space:nowrap;
+  font-family:var(--font-u);font-size:.8rem;font-weight:600;
+  color:var(--text2)
+}
+.hero-badge span{color:var(--purple-l)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ───────────────────────────────────
+   SEARCH BAR
+─────────────────────────────────── */
+.search-wrap{
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:14px;padding:4px 4px 4px 18px;
+  display:flex;align-items:center;gap:8px;
+  backdrop-filter:blur(12px);
+  transition:var(--t);max-width:680px;width:100%
+}
+.search-wrap:focus-within{
+  border-color:var(--purple);
+  box-shadow:0 0 0 3px rgba(124,58,237,.15)
+}
+.search-wrap input{
+  flex:1;background:none;border:none;color:var(--text);
+  font-size:.95rem;padding:10px 0
+}
+.search-wrap input::placeholder{color:var(--text3)}
+.search-wrap select{
+  background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);
+  color:var(--text);border-radius:10px;padding:8px 12px;
+  font-size:.82rem;cursor:none
+}
+.search-wrap select option{background:var(--bg2)}
+
+/* ───────────────────────────────────
+   FEATURED SLIDER
+─────────────────────────────────── */
+.slider{
+  position:relative;border-radius:22px;overflow:hidden;
+  border:1px solid var(--glass-b)
+}
+.slider-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.slide{
+  min-width:100%;height:420px;position:relative;flex-shrink:0
+}
+.slide img{width:100%;height:100%;object-fit:cover}
+.slide-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(5,5,14,.97) 35%,rgba(5,5,14,.4) 70%,transparent 100%);
+  padding:48px 40px;display:flex;flex-direction:column;justify-content:flex-end
+}
+.slide-genre{
+  font-family:var(--font-u);font-size:.72rem;letter-spacing:3px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:10px
+}
+.slide-title{
+  font-family:var(--font-d);font-size:1.7rem;font-weight:700;
+  margin-bottom:10px;line-height:1.2
+}
+.slide-desc{
+  color:var(--text2);font-size:.88rem;max-width:380px;
+  margin-bottom:22px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.slider-ctrl{
+  position:absolute;bottom:20px;right:20px;
+  display:flex;align-items:center;gap:10px
+}
+.slider-arrow{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(5,5,14,.7);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--text);display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:none;transition:var(--t)
+}
+.slider-arrow:hover{background:rgba(124,58,237,.4);border-color:var(--purple)}
+.slider-dots{display:flex;gap:6px;align-items:center}
+.s-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.25);cursor:none;transition:var(--t)
+}
+.s-dot.on{background:var(--purple);width:22px;border-radius:3px}
+
+/* ───────────────────────────────────
+   ANIME GRID / CARDS
+─────────────────────────────────── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:20px
+}
+.card{
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:var(--r);overflow:hidden;
+  transition:var(--t);cursor:none;position:relative
+}
+.card:hover{
+  transform:translateY(-7px);
+  border-color:var(--purple);
+  box-shadow:0 22px 60px rgba(124,58,237,.3)
+}
+.card-thumb{
+  aspect-ratio:2/3;overflow:hidden;position:relative
+}
+.card-thumb img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .45s ease
+}
+.card:hover .card-thumb img{transform:scale(1.07)}
+.card-views{
+  position:absolute;top:8px;right:8px;
+  background:rgba(5,5,14,.8);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;padding:3px 8px;
+  font-size:.68rem;font-family:var(--font-u);color:var(--text2)
+}
+.card-fav{
+  position:absolute;top:8px;left:8px;
+  background:rgba(5,5,14,.75);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.08);border-radius:8px;
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;color:var(--text3);cursor:none;
+  transition:var(--t);z-index:2
+}
+.card-fav:hover,.card-fav.on{color:var(--pink);border-color:var(--pink);box-shadow:0 0 14px rgba(236,72,153,.4)}
+.card-shine{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.05) 50%,transparent 60%);
+  opacity:0;transition:opacity .3s
+}
+.card:hover .card-shine{opacity:1}
+.card-hover-bar{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(5,5,14,.95),transparent);
+  padding:30px 12px 12px;
+  transform:translateY(100%);transition:transform .3s ease
+}
+.card:hover .card-hover-bar{transform:translateY(0)}
+.card-body{padding:11px 12px 14px}
+.card-title{
+  font-family:var(--font-u);font-weight:600;font-size:.88rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px
+}
+.card-genre{
+  font-size:.7rem;color:var(--cyan);
+  text-transform:uppercase;letter-spacing:1.5px;font-family:var(--font-u)
+}
+
+/* ───────────────────────────────────
+   DOWNLOADS PAGE
+─────────────────────────────────── */
+.filter-bar{
+  display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;align-items:center
+}
+.filter-bar input,.filter-bar select{
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:10px;padding:10px 16px;color:var(--text);
+  font-size:.88rem;transition:var(--t)
+}
+.filter-bar input:focus,.filter-bar select:focus{
+  border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,.12)
+}
+.filter-bar input{flex:1;min-width:200px}
+.filter-bar select option{background:var(--bg2)}
+.result-count{
+  font-family:var(--font-u);font-size:.82rem;color:var(--text3);
+  margin-left:auto
+}
+
+/* Anime detail */
+.detail-grid{display:grid;grid-template-columns:240px 1fr;gap:40px;align-items:start}
+.detail-poster{
+  border-radius:16px;overflow:hidden;
+  border:1px solid var(--glass-b);
+  box-shadow:0 30px 80px rgba(0,0,0,.5)
+}
+.detail-tag{
+  font-family:var(--font-u);font-size:.72rem;letter-spacing:3px;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:10px
+}
+.detail-title{
+  font-family:var(--font-d);font-size:2rem;font-weight:900;
+  line-height:1.1;margin-bottom:16px
+}
+.detail-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.chip{
+  padding:5px 12px;border-radius:8px;font-family:var(--font-u);
+  font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:5px
+}
+.chip-p{background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:var(--purple-l)}
+.chip-c{background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.3);color:var(--cyan)}
+.chip-g{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--gold)}
+.detail-desc{color:var(--text2);line-height:1.8;margin-bottom:32px}
+.detail-actions{display:flex;gap:12px;flex-wrap:wrap}
+
+/* Pagination */
+.pag{display:flex;gap:8px;justify-content:center;padding:40px 0 10px}
+.pag-btn{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--glass);border:1px solid var(--glass-b);
+  color:var(--text2);font-family:var(--font-u);font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;transition:var(--t);font-size:.88rem
+}
+.pag-btn:hover{border-color:var(--purple);color:var(--text)}
+.pag-btn.on{background:var(--grad);border-color:transparent;color:#fff}
+
+/* ───────────────────────────────────
+   AUTH PAGES
+─────────────────────────────────── */
+.auth-wrap{
+  min-height:calc(100vh - 68px);
+  display:flex;align-items:center;justify-content:center;padding:40px 24px
+}
+.auth-box{
+  width:100%;max-width:440px;
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:24px;padding:44px;
+  backdrop-filter:blur(20px);
+  animation:pageIn .4s ease
+}
+.auth-logo{
+  font-family:var(--font-d);font-size:1.8rem;font-weight:900;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-align:center;letter-spacing:4px;margin-bottom:6px
+}
+.auth-sub{text-align:center;color:var(--text2);font-size:.88rem;margin-bottom:36px}
+.form-row{margin-bottom:20px}
+.form-lbl{
+  display:block;font-family:var(--font-u);font-size:.75rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:8px
+}
+.form-inp{
+  width:100%;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);border-radius:12px;
+  padding:12px 16px;color:var(--text);font-size:.95rem;transition:var(--t)
+}
+.form-inp:focus{
+  border-color:var(--purple);background:rgba(124,58,237,.08);
+  box-shadow:0 0 0 3px rgba(124,58,237,.14)
+}
+.form-inp::placeholder{color:var(--text3)}
+.form-inp.err{border-color:rgba(239,68,68,.6);background:rgba(239,68,68,.05)}
+.field-err{color:#f87171;font-size:.78rem;margin-top:5px;font-family:var(--font-u)}
+.alert{padding:12px 16px;border-radius:10px;font-size:.88rem;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.alert-err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#f87171}
+.alert-ok{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#34d399}
+.auth-switch{text-align:center;margin-top:24px;color:var(--text2);font-size:.88rem}
+.auth-switch a{color:var(--purple-l);text-decoration:underline;cursor:none}
+
+/* Password strength */
+.pw-strength{margin-top:8px;height:3px;border-radius:2px;background:rgba(255,255,255,.07);overflow:hidden}
+.pw-fill{height:100%;transition:width .3s,background .3s;border-radius:2px}
+
+/* ───────────────────────────────────
+   DASHBOARD
+─────────────────────────────────── */
+.dash-grid{
+  display:grid;grid-template-columns:270px 1fr;gap:24px;
+  padding:40px 24px;max-width:1280px;margin:0 auto;align-items:start
+}
+.sidebar{
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:20px;padding:24px;position:sticky;top:90px;
+  backdrop-filter:blur(12px)
+}
+.av-wrap{text-align:center;margin-bottom:28px}
+.av-ring{
+  width:84px;height:84px;border-radius:50%;margin:0 auto 14px;
+  background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:1.9rem;font-weight:900;color:#fff;
+  border:3px solid rgba(167,139,250,.4);
+  box-shadow:0 0 30px rgba(124,58,237,.5)
+}
+.av-name{font-family:var(--font-u);font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.av-badge{
+  display:inline-block;padding:3px 12px;border-radius:20px;
+  font-family:var(--font-u);font-size:.7rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);color:var(--purple-l)
+}
+.av-badge.admin{
+  background:rgba(6,182,212,.2);border-color:rgba(6,182,212,.4);color:var(--cyan)
+}
+.av-email{color:var(--text3);font-size:.8rem;margin-top:4px}
+.side-nav{list-style:none;margin-top:24px;border-top:1px solid rgba(255,255,255,.06);padding-top:20px}
+.side-nav li a{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-radius:10px;font-family:var(--font-u);font-weight:600;
+  font-size:.88rem;color:var(--text2);transition:var(--t);margin-bottom:3px
+}
+.side-nav li a:hover,.side-nav li a.on{
+  background:rgba(124,58,237,.15);color:var(--text)
+}
+.side-nav li a .ico{
+  width:20px;text-align:center;font-style:normal
+}
+
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px
+}
+.stat-box{
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:16px;padding:22px 20px;backdrop-filter:blur(8px);
+  text-align:center
+}
+.stat-n{
+  font-family:var(--font-d);font-size:1.7rem;font-weight:900;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent
+}
+.stat-l{
+  font-family:var(--font-u);font-size:.72rem;letter-spacing:2px;
+  color:var(--text3);text-transform:uppercase;margin-top:4px
+}
+
+.dash-section{
+  background:var(--glass);border:1px solid var(--glass-b);
+  border-radius:20px;padding:28px;backdrop-filter:blur(8px);margin-bottom:24px
+}
+.dash-sec-title{
+  font-family:var(--font-u);font-size:.82rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:20px;
+  padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06)
+}
+
+/* ───────────────────────────────────
+   ADMIN PANEL
+─────────────────────────────────── */
+.admin-table-wrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:.86rem}
+.tbl th{
+  font-family:var(--font-u);font-size:.7rem;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--text3);
+  text-align:left;padding:10px 14px;border-bottom:1px solid var(--glass-b)
+}
+.tbl td{
+  padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.04);
+  vertical-align:middle
+}
+.tbl tr:hover td{background:rgba(124,58,237,.04)}
+.tbl-thumb{
+  width:44px;height:62px;object-fit:cover;
+  border-radius:6px;border:1px solid var(--glass-b)
+}
+
+/* Upload form */
+.upload-form{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px
+}
+.upload-form .full{grid-column:1/-1}
+.file-drop{
+  border:2px dashed rgba(124,58,237,.35);border-radius:12px;
+  padding:28px;text-align:center;
+  background:rgba(124,58,237,.04);
+  transition:var(--t);cursor:none
+}
+.file-drop:hover,.file-drop.over{
+  border-color:var(--purple);background:rgba(124,58,237,.1)
+}
+.file-drop-icon{font-size:2rem;margin-bottom:8px}
+.file-drop-txt{color:var(--text2);font-size:.88rem}
+.file-drop-txt span{color:var(--purple-l)}
+
+/* ───────────────────────────────────
+   COMMENTS
+─────────────────────────────────── */
+.comment-list{display:flex;flex-direction:column;gap:16px;margin-top:24px}
+.comment{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:16px
+}
+.comment-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:8px
+}
+.comment-av{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--grad2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0
+}
+.comment-name{font-family:var(--font-u);font-weight:700;font-size:.88rem}
+.comment-date{font-size:.72rem;color:var(--text3);margin-left:auto;font-family:var(--font-u)}
+.comment-text{color:var(--text2);font-size:.88rem;line-height:1.6}
+.comment-form textarea{
+  width:100%;min-height:90px;resize:vertical;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:12px 16px;color:var(--text);font-size:.88rem;
+  transition:var(--t)
+}
+.comment-form textarea:focus{
+  border-color:var(--purple);background:rgba(124,58,237,.06);
+  box-shadow:0 0 0 3px rgba(124,58,237,.12)
+}
+
+/* ───────────────────────────────────
+   MODAL
+─────────────────────────────────── */
+.modal-bg{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(5,5,14,.85);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:24px
+}
+.modal-bg.open{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--bg2);border:1px solid var(--glass-b);
+  border-radius:22px;padding:36px;max-width:520px;width:100%;
+  position:relative;animation:slideUp .3s ease
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(255,255,255,.06);border:none;color:var(--text2);
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  cursor:none;transition:var(--t)
+}
+.modal-close:hover{background:rgba(239,68,68,.2);color:#f87171}
+.modal-title{
+  font-family:var(--font-d);font-size:1.1rem;font-weight:700;
+  margin-bottom:20px
+}
+
+/* ───────────────────────────────────
+   TOAST
+─────────────────────────────────── */
+#toast-wrap{
+  position:fixed;bottom:24px;right:24px;z-index:9000;
+  display:flex;flex-direction:column;gap:10px;pointer-events:none
+}
+.toast{
+  background:var(--bg2);border:1px solid var(--glass-b);
+  border-radius:12px;padding:14px 18px;
+  font-family:var(--font-u);font-size:.88rem;font-weight:600;
+  display:flex;align-items:center;gap:10px;min-width:240px;
+  animation:toastIn .3s ease;pointer-events:auto;
+  box-shadow:0 10px 40px rgba(0,0,0,.5)
+}
+.toast.hide{animation:toastOut .3s ease forwards}
+.toast.success{border-color:rgba(16,185,129,.4);color:#34d399}
+.toast.error{border-color:rgba(239,68,68,.4);color:#f87171}
+.toast.info{border-color:rgba(124,58,237,.4);color:var(--purple-l)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+
+/* ───────────────────────────────────
+   FOOTER
+─────────────────────────────────── */
+footer{
+  border-top:1px solid var(--glass-b);padding:44px 24px 28px;
+  text-align:center;position:relative
+}
+.footer-logo{
+  font-family:var(--font-d);font-size:1.5rem;font-weight:900;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:4px;margin-bottom:12px
+}
+.footer-links{
+  display:flex;justify-content:center;gap:24px;margin-bottom:18px;flex-wrap:wrap
+}
+.footer-links a{
+  font-family:var(--font-u);font-size:.82rem;color:var(--text3);
+  letter-spacing:1.5px;text-transform:uppercase;
+  transition:var(--t);cursor:none
+}
+.footer-links a:hover{color:var(--purple-l)}
+.footer-copy{color:var(--text3);font-family:var(--font-u);font-size:.78rem;letter-spacing:1px}
+
+/* ───────────────────────────────────
+   RESPONSIVE
+─────────────────────────────────── */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .dash-grid{grid-template-columns:1fr;padding:24px}
+  .sidebar{position:static}
+  .detail-grid{grid-template-columns:1fr;gap:24px}
+  .detail-poster{max-width:200px}
+}
+@media(max-width:768px){
+  .burger{display:flex}
+  .nav-links{
+    position:fixed;top:68px;left:0;right:0;
+    background:rgba(5,5,14,.97);backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--glass-b);
+    flex-direction:column;padding:16px;gap:4px;
+    transform:translateY(-110%);transition:transform .3s ease
+  }
+  .nav-links.open{transform:translateY(0)}
+  .nav-links a{display:block;text-align:center;padding:12px}
+  .upload-form{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .auth-box{padding:28px 22px}
+  .slide{height:280px}
+  .slide-overlay{padding:22px}
+  .slide-title{font-size:1.1rem}
+  .stats-row{grid-template-columns:1fr}
+  body{cursor:auto}
+  .cursor{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ CUSTOM CURSOR ═══ -->
+<div class="cursor" id="cursor">
+  <div class="cursor-ring" id="cring"></div>
+  <div class="cursor-dot" id="cdot"></div>
+</div>
+
+<!-- ═══ PRELOADER ═══ -->
+<div id="preloader">
+  <div class="pre-logo">ANISTRA</div>
+  <div class="pre-sub">Loading your universe</div>
+  <div class="pre-track"><div class="pre-fill"></div></div>
+</div>
+
+<!-- ═══ CANVAS BACKGROUND ═══ -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ═══ TOAST CONTAINER ═══ -->
+<div id="toast-wrap"></div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     APP
+═══════════════════════════════ -->
+<div id="app">
+
+<!-- ───── NAVBAR ───── -->
+<nav class="nav" id="navbar">
+  <div class="nav-logo" onclick="nav('home')" style="cursor:none">ANISTRA</div>
+
+  <button class="burger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#" onclick="nav('home');return false" data-page="home">Home</a></li>
+    <li><a href="#" onclick="nav('downloads');return false" data-page="downloads">Downloads</a></li>
+    <li><a href="#" onclick="nav('dashboard');return false" id="nav-dash" data-page="dashboard" style="display:none">Dashboard</a></li>
+    <li><a href="#" onclick="nav('admin');return false" id="nav-admin" data-page="admin" style="display:none">Admin</a></li>
+  </ul>
+
+  <div class="nav-right" id="nav-right">
+    <a href="#" onclick="nav('login');return false" class="btn btn-ghost btn-sm" id="nav-login">Login</a>
+    <a href="#" onclick="nav('register');return false" class="btn btn-grad btn-sm" id="nav-register">Register</a>
+    <div class="nav-user" id="nav-user-info" style="display:none">
+      <div class="av" id="nav-av">?</div>
+      <span id="nav-uname">User</span>
+      <a href="#" onclick="doLogout();return false" class="btn btn-ghost btn-xs" style="margin-left:4px">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════
+     PAGE: HOME
+═══════════════════════════════ -->
+<div class="page" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner container">
+      <div>
+        <div class="hero-tag">Your Anime Universe</div>
+        <h1 class="hero-h1">Watch &amp; Download<br><em>Anime Anywhere</em></h1>
+        <p class="hero-p">Discover thousands of anime titles. Stream in HD, download for offline. No limits, no ads — just pure anime culture.</p>
+
+        <div class="hero-btns">
+          <button class="btn btn-grad" onclick="nav('downloads')">Browse Library ↗</button>
+          <button class="btn btn-outline" onclick="nav('register')" id="hero-reg-btn">Join Free</button>
+        </div>
+
+        <!-- SEARCH -->
+        <form onsubmit="heroSearch(event)">
+          <div class="search-wrap">
+            <input type="text" id="hero-search" placeholder="Search anime title..." autocomplete="off">
+            <select id="hero-genre">
+              <option value="">All Genres</option>
+              <option>Action</option><option>Adventure</option><option>Comedy</option>
+              <option>Drama</option><option>Fantasy</option><option>Horror</option>
+              <option>Romance</option><option>Sci-Fi</option><option>Slice of Life</option>
+              <option>Supernatural</option><option>Thriller</option>
+            </select>
+            <button type="submit" class="btn btn-grad btn-sm" style="border-radius:10px">Search</button>
+          </div>
+        </form>
+
+        <div class="hero-stats">
+          <div><div class="hero-stat-n">2,400+</div><div class="hero-stat-l">Anime Titles</div></div>
+          <div><div class="hero-stat-n">180K</div><div class="hero-stat-l">Members</div></div>
+          <div><div class="hero-stat-n">Free</div><div class="hero-stat-l">Forever</div></div>
+        </div>
+      </div>
+
+      <!-- VISUAL STACK -->
+      <div class="hero-visual">
+        <div class="hero-card hero-card-3">
+          <img src="https://cdn.myanimelist.net/images/anime/1208/94745l.jpg" alt="">
+        </div>
+        <div class="hero-card hero-card-2">
+          <img src="https://cdn.myanimelist.net/images/anime/1286/99889l.jpg" alt="">
+        </div>
+        <div class="hero-card hero-card-main">
+          <img src="https://cdn.myanimelist.net/images/anime/1015/138006l.jpg" alt="">
+          <div class="hero-badge">🔥 Trending Now · <span>Demon Slayer</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED SLIDER -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Featured</h2>
+      </div>
+      <div class="slider" id="slider">
+        <div class="slider-track" id="slider-track"></div>
+        <div class="slider-ctrl">
+          <button class="slider-arrow" id="sl-prev">‹</button>
+          <div class="slider-dots" id="slider-dots"></div>
+          <button class="slider-arrow" id="sl-next">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST UPLOADS -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Latest Uploads</h2>
+        <button class="btn btn-ghost btn-sm" onclick="nav('downloads')">View All →</button>
+      </div>
+      <div class="grid" id="home-grid"></div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+<!-- ═══════════════════════════════
+     PAGE: DOWNLOADS
+═══════════════════════════════ -->
+<div class="page" id="page-downloads">
+  <section class="section">
+    <div class="container">
+      <!-- List view -->
+      <div id="dl-list-view">
+        <div class="sec-head">
+          <h1 class="sec-title">Downloads</h1>
+          <span class="result-count" id="dl-count"></span>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="dl-search" placeholder="🔍  Search titles…" oninput="filterAnime()">
+          <select id="dl-genre" onchange="filterAnime()">
+            <option value="">All Genres</option>
+            <option>Action</option><option>Adventure</option><option>Comedy</option>
+            <option>Drama</option><option>Fantasy</option><option>Horror</option>
+            <option>Romance</option><option>Sci-Fi</option><option>Slice of Life</option>
+            <option>Supernatural</option><option>Thriller</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="clearFilters()">Clear</button>
+        </div>
+        <div class="grid" id="dl-grid"></div>
+        <div class="pag" id="dl-pag"></div>
+      </div>
+      <!-- Detail view -->
+      <div id="dl-detail-view" style="display:none"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE: LOGIN
+═══════════════════════════════ -->
+<div class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <div class="auth-logo">ANISTRA</div>
+      <div class="auth-sub">Welcome back, Otaku ⚡</div>
+      <div id="login-alert"></div>
+      <div class="form-row">
+        <label class="form-lbl">Email</label>
+        <input class="form-inp" type="email" id="login-email" placeholder="you@email.com">
+        <div class="field-err" id="err-login-email"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-lbl">Password</label>
+        <input class="form-inp" type="password" id="login-pass" placeholder="••••••••">
+        <div class="field-err" id="err-login-pass"></div>
+      </div>
+      <button class="btn btn-grad w-full" style="width:100%;justify-content:center;margin-top:8px" onclick="doLogin()">
+        Login →
+      </button>
+      <div class="auth-switch">
+        Don't have an account? <a href="#" onclick="nav('register');return false">Register here</a>
+      </div>
+      <div class="auth-switch" style="margin-top:8px;font-size:.78rem;color:var(--text3)">
+        Demo admin: admin@anistra.com / Admin@1234
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE: REGISTER
+═══════════════════════════════ -->
+<div class="page" id="page-register">
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <div class="auth-logo">ANISTRA</div>
+      <div class="auth-sub">Join the anime community 🎌</div>
+      <div id="register-alert"></div>
+      <div class="form-row">
+        <label class="form-lbl">Username</label>
+        <input class="form-inp" type="text" id="reg-user" placeholder="YourUsername" maxlength="30" oninput="validateReg()">
+        <div class="field-err" id="err-reg-user"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-lbl">Email</label>
+        <input class="form-inp" type="email" id="reg-email" placeholder="you@email.com" oninput="validateReg()">
+        <div class="field-err" id="err-reg-email"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-lbl">Password</label>
+        <input class="form-inp" type="password" id="reg-pass" placeholder="Min 8 characters" oninput="validateReg();checkPwStrength()">
+        <div class="pw-strength"><div class="pw-fill" id="pw-fill" style="width:0;background:red"></div></div>
+        <div class="field-err" id="err-reg-pass"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-lbl">Confirm Password</label>
+        <input class="form-inp" type="password" id="reg-pass2" placeholder="Repeat password" oninput="validateReg()">
+        <div class="field-err" id="err-reg-pass2"></div>
+      </div>
+      <button class="btn btn-grad" style="width:100%;justify-content:center;margin-top:8px" onclick="doRegister()">
+        Create Account →
+      </button>
+      <div class="auth-switch">
+        Already have an account? <a href="#" onclick="nav('login');return false">Login here</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE: DASHBOARD
+═══════════════════════════════ -->
+<div class="page" id="page-dashboard">
+  <div class="dash-grid">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="av-wrap">
+        <div class="av-ring" id="dash-av">?</div>
+        <div class="av-name" id="dash-name">—</div>
+        <div class="av-badge" id="dash-badge">User</div>
+        <div class="av-email" id="dash-email">—</div>
+      </div>
+      <ul class="side-nav">
+        <li><a href="#" onclick="dashTab('overview');return false" class="on" id="tab-overview"><i class="ico">⊞</i> Overview</a></li>
+        <li><a href="#" onclick="dashTab('favorites');return false" id="tab-favorites"><i class="ico">♥</i> Favorites</a></li>
+        <li><a href="#" onclick="dashTab('profile');return false" id="tab-profile"><i class="ico">◈</i> Profile</a></li>
+        <li><a href="#" onclick="doLogout();return false"><i class="ico">⎋</i> Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main content -->
+    <div>
+      <!-- Overview -->
+      <div id="dash-overview">
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-n" id="stat-fav">0</div><div class="stat-l">Favorites</div></div>
+          <div class="stat-box"><div class="stat-n" id="stat-comm">0</div><div class="stat-l">Comments</div></div>
+          <div class="stat-box"><div class="stat-n" id="stat-days">0</div><div class="stat-l">Days Active</div></div>
+        </div>
+        <div class="dash-section">
+          <div class="dash-sec-title">Recent Favorites</div>
+          <div class="grid" id="dash-fav-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))"></div>
+        </div>
+      </div>
+      <!-- Favorites -->
+      <div id="dash-favorites" style="display:none">
+        <div class="dash-section">
+          <div class="dash-sec-title">All Favorites</div>
+          <div class="grid" id="dash-all-fav" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))"></div>
+        </div>
+      </div>
+      <!-- Profile -->
+      <div id="dash-profile-tab" style="display:none">
+        <div class="dash-section">
+          <div class="dash-sec-title">Edit Profile</div>
+          <div class="form-row"><label class="form-lbl">Username</label><input class="form-inp" id="prof-user" readonly style="opacity:.6"></div>
+          <div class="form-row"><label class="form-lbl">Email</label><input class="form-inp" id="prof-email" readonly style="opacity:.6"></div>
+          <div class="form-row"><label class="form-lbl">Member Since</label><input class="form-inp" id="prof-since" readonly style="opacity:.6"></div>
+          <p style="color:var(--text3);font-family:var(--font-u);font-size:.82rem;margin-top:8px">Profile editing requires backend integration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     PAGE: ADMIN
+═══════════════════════════════ -->
+<div class="page" id="page-admin">
+  <div class="dash-grid">
+    <aside class="sidebar">
+      <div class="av-wrap">
+        <div class="av-ring" style="background:linear-gradient(135deg,#06b6d4,#7c3aed)">A</div>
+        <div class="av-name">Admin Panel</div>
+        <div class="av-badge admin">Administrator</div>
+      </div>
+      <ul class="side-nav">
+        <li><a href="#" onclick="adminTab('list');return false" class="on" id="atab-list"><i class="ico">☰</i> Anime List</a></li>
+        <li><a href="#" onclick="adminTab('upload');return false" id="atab-upload"><i class="ico">↑</i> Upload Anime</a></li>
+        <li><a href="#" onclick="adminTab('users');return false" id="atab-users"><i class="ico">◎</i> Users</a></li>
+        <li><a href="#" onclick="doLogout();return false"><i class="ico">⎋</i> Logout</a></li>
+      </ul>
+    </aside>
+    <div>
+      <!-- Anime list -->
+      <div id="admin-list">
+        <div class="dash-section">
+          <div class="dash-sec-title" style="display:flex;justify-content:space-between;align-items:center">
+            Anime List
+            <button class="btn btn-grad btn-sm" onclick="adminTab('upload')">+ Upload New</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="tbl" id="admin-tbl">
+              <thead>
+                <tr>
+                  <th>#</th><th>Poster</th><th>Title</th><th>Genre</th>
+                  <th>Views</th><th>Added</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Upload form -->
+      <div id="admin-upload" style="display:none">
+        <div class="dash-section">
+          <div class="dash-sec-title">Upload New Anime</div>
+          <div id="upload-alert"></div>
+          <div class="upload-form">
+            <div class="form-row full"><label class="form-lbl">Title *</label><input class="form-inp" id="up-title" placeholder="Anime title"></div>
+            <div class="form-row"><label class="form-lbl">Genre</label>
+              <select class="form-inp" id="up-genre">
+                <option value="">Select genre</option>
+                <option>Action</option><option>Adventure</option><option>Comedy</option>
+                <option>Drama</option><option>Fantasy</option><option>Horror</option>
+                <option>Romance</option><option>Sci-Fi</option><option>Slice of Life</option>
+                <option>Supernatural</option><option>Thriller</option>
+              </select>
+            </div>
+            <div class="form-row"><label class="form-lbl">Thumbnail URL</label><input class="form-inp" id="up-thumb" placeholder="https://..."></div>
+            <div class="form-row full"><label class="form-lbl">Description</label>
+              <textarea class="form-inp" id="up-desc" rows="4" placeholder="Anime description..." style="resize:vertical"></textarea>
+            </div>
+            <div class="form-row full"><label class="form-lbl">Download URL</label><input class="form-inp" id="up-url" placeholder="https://..."></div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px">
+            <button class="btn btn-grad" onclick="adminUpload()">Upload Anime</button>
+            <button class="btn btn-ghost" onclick="adminTab('list')">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <!-- Users -->
+      <div id="admin-users" style="display:none">
+        <div class="dash-section">
+          <div class="dash-sec-title">Registered Users</div>
+          <div class="admin-table-wrap">
+            <table class="tbl">
+              <thead><tr><th>#</th><th>Username</th><th>Email</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead>
+              <tbody id="admin-users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ANISTRA</div>
+  <div class="footer-links">
+    <a href="#" onclick="nav('home');return false">Home</a>
+    <a href="#" onclick="nav('downloads');return false">Downloads</a>
+    <a href="#" onclick="nav('login');return false">Login</a>
+    <a href="#" onclick="nav('register');return false">Register</a>
+  </div>
+  <div class="footer-copy">© 2025 Anistra · Built with ⚡</div>
+</footer>
+
+</div><!-- #app -->
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ══════════════════════════════════
+   DATA STORE (localStorage)
+   Simulates backend persistence
+══════════════════════════════════ */
+const DB = {
+  get(k){ try{ return JSON.parse(localStorage.getItem('anistra_'+k)); }catch{ return null; } },
+  set(k,v){ localStorage.setItem('anistra_'+k, JSON.stringify(v)); },
+  seed(){
+    if(DB.get('seeded')) return;
+    DB.set('users', [
+      { id:1, username:'admin', email:'admin@anistra.com', password:'Admin@1234', role:'admin', joined: new Date(Date.now()-30*86400000).toISOString() }
+    ]);
+    DB.set('anime', ANIME_DATA);
+    DB.set('favorites', []);
+    DB.set('comments', []);
+    DB.set('seeded', true);
+  }
+};
+
+/* ══════════════════════════════════
+   SAMPLE ANIME DATA
+══════════════════════════════════ */
+const ANIME_DATA = [
+  { id:1, title:'Demon Slayer: Kimetsu no Yaiba', genre:'Action', description:'Tanjiro Kamado sets out to become a demon slayer after his family is slaughtered and his sister turned into a demon. A story of perseverance, family, and the eternal battle between humans and demons.', thumb:'https://cdn.myanimelist.net/images/anime/1286/99889l.jpg', url:'#', views:15420, added:'2024-01-15' },
+  { id:2, title:'Attack on Titan', genre:'Action', description:'Humanity lives inside cities surrounded by enormous walls due to the Titans, gigantic humanoid beings who devour humans. A dark, complex story about freedom, sacrifice, and the nature of conflict.', thumb:'https://cdn.myanimelist.net/images/anime/1015/138006l.jpg', url:'#', views:28901, added:'2024-01-10' },
+  { id:3, title:'Jujutsu Kaisen', genre:'Supernatural', description:'A boy swallows a cursed talisman and must team up with a special-grade jujutsu sorcerer to defeat dangerous curses that threaten humanity.', thumb:'https://cdn.myanimelist.net/images/anime/1208/94745l.jpg', url:'#', views:19340, added:'2024-01-08' },
+  { id:4, title:'One Piece', genre:'Adventure', description:'Monkey D. Luffy explores the Grand Line in search of the legendary treasure known as the One Piece to become the next King of the Pirates.', thumb:'https://cdn.myanimelist.net/images/anime/6/73245l.jpg', url:'#', views:45200, added:'2024-01-05' },
+  { id:5, title:'Naruto Shippuden', genre:'Action', description:'Naruto Uzumaki aims to become the Hokage of the Hidden Leaf Village while battling the Akatsuki organization and discovering the truth of his origins.', thumb:'https://cdn.myanimelist.net/images/anime/3/20005l.jpg', url:'#', views:62100, added:'2024-01-03' },
+  { id:6, title:'Fullmetal Alchemist: Brotherhood', genre:'Fantasy', description:'Two brothers use alchemy and pay a terrible price. Their journey to restore what was lost uncovers a massive conspiracy threatening the entire country.', thumb:'https://cdn.myanimelist.net/images/anime/1223/96541l.jpg', url:'#', views:38700, added:'2024-01-01' },
+  { id:7, title:'Death Note', genre:'Thriller', description:'A high school student discovers a supernatural notebook that kills anyone whose name is written in it. A cat-and-mouse battle of wits between him and a legendary detective unfolds.', thumb:'https://cdn.myanimelist.net/images/anime/9/9453l.jpg', url:'#', views:33500, added:'2023-12-28' },
+  { id:8, title:'My Hero Academia', genre:'Action', description:'In a world where most people have superpowers called Quirks, a powerless boy gets the chance to become the greatest hero of all time.', thumb:'https://cdn.myanimelist.net/images/anime/10/78745l.jpg', url:'#', views:27800, added:'2023-12-25' },
+  { id:9, title:'Sword Art Online', genre:'Adventure', description:'Players are trapped inside a massive online RPG where death in the game means death in real life. Kirito must fight his way to clear all 100 floors.', thumb:'https://cdn.myanimelist.net/images/anime/11/39717l.jpg', url:'#', views:21400, added:'2023-12-20' },
+  { id:10, title:'Tokyo Ghoul', genre:'Horror', description:'A college student is attacked by a ghoul and barely survives. Transformed into a half-ghoul, he must navigate the hidden world of flesh-eating monsters in modern Tokyo.', thumb:'https://cdn.myanimelist.net/images/anime/5/64449l.jpg', url:'#', views:18900, added:'2023-12-18' },
+  { id:11, title:'Black Clover', genre:'Fantasy', description:'Asta and Yuno grew up together with a dream to become the Wizard King. Despite having no magic, Asta never gives up on his impossible dream.', thumb:'https://cdn.myanimelist.net/images/anime/2/88336l.jpg', url:'#', views:14200, added:'2023-12-15' },
+  { id:12, title:'Vinland Saga', genre:'Drama', description:'A young Icelander dreams of reaching Vinland, a legendary paradise, while caught in the brutal Viking Age. A tale of revenge, war, and the search for true strength.', thumb:'https://cdn.myanimelist.net/images/anime/1500/103005l.jpg', url:'#', views:16700, added:'2023-12-10' },
+];
+
+/* ══════════════════════════════════
+   STATE
+══════════════════════════════════ */
+let state = {
+  user: null,
+  page: 'home',
+  dlPage: 1,
+  dlSearch: '',
+  dlGenre: '',
+  editId: null
+};
+const PER_PAGE = 8;
+
+/* ══════════════════════════════════
+   INIT
+══════════════════════════════════ */
+window.addEventListener('load', () => {
+  DB.seed();
+  // Restore session
+  const sess = DB.get('session');
+  if(sess){ state.user = sess; }
+
+  initParticles();
+  initCursor();
+  buildSlider();
+  buildHomeGrid();
+  buildDLGrid();
+  updateNav();
+  nav('home');
+
+  // Hide preloader
+  setTimeout(()=>{
+    document.getElementById('preloader').classList.add('out');
+    document.getElementById('app').classList.add('show');
+  }, 2100);
+});
+
+/* ══════════════════════════════════
+   NAVIGATION
+══════════════════════════════════ */
+function nav(page){
+  state.page = page;
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  // Show target
+  const el = document.getElementById('page-'+page);
+  if(el) el.classList.add('active');
+  // Active nav link
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active', a.dataset.page === page);
+  });
+  // Auth guard
+  if(page==='dashboard' && !state.user){ nav('login'); return; }
+  if(page==='admin' && (!state.user || state.user.role!=='admin')){ nav('home'); toast('Access denied.','error'); return; }
+  if(page==='dashboard') buildDashboard();
+  if(page==='admin'){ buildAdminTable(); adminTab('list'); }
+  // Close mobile menu
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('burger').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════
+   NAV UPDATE
+══════════════════════════════════ */
+function updateNav(){
+  const u = state.user;
+  document.getElementById('nav-login').style.display    = u ? 'none' : '';
+  document.getElementById('nav-register').style.display = u ? 'none' : '';
+  document.getElementById('nav-user-info').style.display= u ? '' : 'none';
+  document.getElementById('nav-dash').style.display     = u ? '' : 'none';
+  document.getElementById('nav-admin').style.display    = (u && u.role==='admin') ? '' : 'none';
+  document.getElementById('hero-reg-btn').style.display = u ? 'none' : '';
+  if(u){
+    document.getElementById('nav-av').textContent   = u.username[0].toUpperCase();
+    document.getElementById('nav-uname').textContent= u.username;
+  }
+}
+
+/* ══════════════════════════════════
+   AUTH
+══════════════════════════════════ */
+function doLogin(){
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  clearErr(['login-email','login-pass']);
+  let ok = true;
+  if(!email){ showErr('login-email','Email is required'); ok=false; }
+  if(!pass){  showErr('login-pass','Password is required'); ok=false; }
+  if(!ok) return;
+
+  const users = DB.get('users') || [];
+  const user  = users.find(u=> u.email===email && u.password===pass);
+  if(!user){
+    document.getElementById('login-alert').innerHTML = alertHTML('Invalid email or password.','err');
+    return;
+  }
+  state.user = { id:user.id, username:user.username, email:user.email, role:user.role, joined:user.joined };
+  DB.set('session', state.user);
+  updateNav();
+  toast('Welcome back, '+user.username+' ⚡','success');
+  nav(user.role==='admin' ? 'admin' : 'dashboard');
+}
+
+function doRegister(){
+  const uname = document.getElementById('reg-user').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass  = document.getElementById('reg-pass').value;
+  const pass2 = document.getElementById('reg-pass2').value;
+  clearErr(['reg-user','reg-email','reg-pass','reg-pass2']);
+  let ok = true;
+
+  if(uname.length < 3){ showErr('reg-user','Min 3 characters'); ok=false; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showErr('reg-email','Invalid email'); ok=false; }
+  if(pass.length < 8){ showErr('reg-pass','Min 8 characters'); ok=false; }
+  if(pass !== pass2){ showErr('reg-pass2','Passwords do not match'); ok=false; }
+  if(!ok) return;
+
+  const users = DB.get('users') || [];
+  if(users.find(u=>u.email===email)){ showErr('reg-email','Email already taken'); return; }
+  if(users.find(u=>u.username===uname)){ showErr('reg-user','Username taken'); return; }
+
+  const newUser = { id: Date.now(), username:uname, email, password:pass, role:'user', joined: new Date().toISOString() };
+  users.push(newUser);
+  DB.set('users', users);
+
+  document.getElementById('register-alert').innerHTML = alertHTML('Account created! Logging you in…','ok');
+  setTimeout(()=>{
+    state.user = { id:newUser.id, username:newUser.username, email:newUser.email, role:'user', joined:newUser.joined };
+    DB.set('session', state.user);
+    updateNav();
+    nav('dashboard');
+    toast('Welcome to Anistra, '+uname+' 🎌','success');
+  }, 1000);
+}
+
+function doLogout(){
+  state.user = null;
+  DB.set('session', null);
+  updateNav();
+  nav('home');
+  toast('Logged out.','info');
+}
+
+/* ══════════════════════════════════
+   FORM VALIDATION HELPERS
+══════════════════════════════════ */
+function showErr(id,msg){
+  const inp = document.getElementById(id);
+  const err = document.getElementById('err-'+id);
+  if(inp) inp.classList.add('err');
+  if(err) err.textContent = msg;
+}
+function clearErr(ids){
+  ids.forEach(id=>{
+    const inp = document.getElementById(id);
+    const err = document.getElementById('err-'+id);
+    if(inp) inp.classList.remove('err');
+    if(err) err.textContent = '';
+  });
+}
+function alertHTML(msg, type){
+  return `<div class="alert alert-${type==='ok'?'ok':'err'}">${type==='ok'?'✓':'✕'} ${msg}</div>`;
+}
+function validateReg(){
+  // Light real-time validation
+  const uname = document.getElementById('reg-user').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass  = document.getElementById('reg-pass').value;
+  const pass2 = document.getElementById('reg-pass2').value;
+  if(uname && uname.length < 3)   document.getElementById('err-reg-user').textContent = 'Min 3 characters';
+  else document.getElementById('err-reg-user').textContent = '';
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) document.getElementById('err-reg-email').textContent = 'Invalid email';
+  else document.getElementById('err-reg-email').textContent = '';
+  if(pass2 && pass !== pass2) document.getElementById('err-reg-pass2').textContent = 'Passwords do not match';
+  else document.getElementById('err-reg-pass2').textContent = '';
+}
+function checkPwStrength(){
+  const p = document.getElementById('reg-pass').value;
+  let score = 0;
+  if(p.length >= 8) score++;
+  if(/[A-Z]/.test(p)) score++;
+  if(/[0-9]/.test(p)) score++;
+  if(/[^A-Za-z0-9]/.test(p)) score++;
+  const fill = document.getElementById('pw-fill');
+  const colors = ['#ef4444','#f59e0b','#06b6d4','#10b981'];
+  fill.style.width = (score*25)+'%';
+  fill.style.background = colors[score-1] || '#ef4444';
+}
+
+/* ══════════════════════════════════
+   SEARCH
+══════════════════════════════════ */
+function heroSearch(e){
+  e.preventDefault();
+  const q = document.getElementById('hero-search').value.trim();
+  const g = document.getElementById('hero-genre').value;
+  document.getElementById('dl-search').value = q;
+  document.getElementById('dl-genre').value  = g;
+  state.dlSearch = q; state.dlGenre = g; state.dlPage = 1;
+  buildDLGrid();
+  nav('downloads');
+}
+function filterAnime(){
+  state.dlSearch = document.getElementById('dl-search').value.trim();
+  state.dlGenre  = document.getElementById('dl-genre').value;
+  state.dlPage   = 1;
+  buildDLGrid();
+}
+function clearFilters(){
+  document.getElementById('dl-search').value='';
+  document.getElementById('dl-genre').value='';
+  state.dlSearch=''; state.dlGenre=''; state.dlPage=1;
+  buildDLGrid();
+}
+
+/* ══════════════════════════════════
+   ANIME GRID BUILDERS
+══════════════════════════════════ */
+function getAnime(){ return DB.get('anime') || ANIME_DATA; }
+
+function buildHomeGrid(){
+  const list = getAnime().slice(0,8);
+  document.getElementById('home-grid').innerHTML = list.map((a,i)=>cardHTML(a,i)).join('');
+}
+
+function buildDLGrid(){
+  let list = getAnime();
+  if(state.dlSearch) list = list.filter(a=>a.title.toLowerCase().includes(state.dlSearch.toLowerCase())||a.description.toLowerCase().includes(state.dlSearch.toLowerCase()));
+  if(state.dlGenre)  list = list.filter(a=>a.genre===state.dlGenre);
+
+  const total = list.length;
+  const pages = Math.ceil(total/PER_PAGE);
+  state.dlPage = Math.min(state.dlPage, pages||1);
+  const slice = list.slice((state.dlPage-1)*PER_PAGE, state.dlPage*PER_PAGE);
+
+  document.getElementById('dl-count').textContent = total+' titles';
+  document.getElementById('dl-grid').innerHTML = slice.length
+    ? slice.map((a,i)=>cardHTML(a,i)).join('')
+    : '<p style="grid-column:1/-1;text-align:center;color:var(--text3);padding:60px 0;font-family:var(--font-u)">No anime found 🎌</p>';
+
+  // Pagination
+  let pag = '';
+  if(pages>1){
+    if(state.dlPage>1) pag+=`<button class="pag-btn" onclick="dlPage(${state.dlPage-1})">‹</button>`;
+    for(let i=Math.max(1,state.dlPage-2);i<=Math.min(pages,state.dlPage+2);i++){
+      pag+=`<button class="pag-btn${i===state.dlPage?' on':''}" onclick="dlPage(${i})">${i}</button>`;
+    }
+    if(state.dlPage<pages) pag+=`<button class="pag-btn" onclick="dlPage(${state.dlPage+1})">›</button>`;
+  }
+  document.getElementById('dl-pag').innerHTML = pag;
+}
+function dlPage(p){ state.dlPage=p; buildDLGrid(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function cardHTML(a, i=0){
+  const favs   = DB.get('favorites')||[];
+  const isFav  = state.user && favs.some(f=>f.userId===state.user.id && f.animeId===a.id);
+  const delay  = i*0.06;
+  return `
+  <div class="card" style="animation-delay:${delay}s" onclick="showDetail(${a.id})">
+    ${state.user?`<button class="card-fav${isFav?' on':''}" onclick="toggleFav(event,${a.id})">${isFav?'♥':'♡'}</button>`:''}
+    <div class="card-thumb">
+      <img src="${a.thumb}" alt="${a.title}" loading="lazy" onerror="this.src='https://placehold.co/300x420/0a0a18/7c3aed?text=No+Image'">
+      <div class="card-views">👁 ${fmtNum(a.views)}</div>
+      <div class="card-shine"></div>
+      <div class="card-hover-bar"><button class="btn btn-grad btn-xs" style="width:100%;justify-content:center">View →</button></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">${a.title}</div>
+      <div class="card-genre">${a.genre}</div>
+    </div>
+  </div>`;
+}
+
+function showDetail(id){
+  const a = getAnime().find(x=>x.id===id);
+  if(!a) return;
+  const favs  = DB.get('favorites')||[];
+  const isFav = state.user && favs.some(f=>f.userId===state.user.id && f.animeId===id);
+  const comms = (DB.get('comments')||[]).filter(c=>c.animeId===id);
+
+  document.getElementById('dl-list-view').style.display='none';
+  document.getElementById('dl-detail-view').style.display='';
+  document.getElementById('dl-detail-view').innerHTML = `
+    <button class="btn btn-ghost btn-sm" onclick="backToList()" style="margin-bottom:28px">← Back</button>
+    <div class="detail-grid">
+      <div>
+        <div class="detail-poster"><img src="${a.thumb}" alt="${a.title}" onerror="this.src='https://placehold.co/240x340/0a0a18/7c3aed?text=No+Image'" style="width:100%"></div>
+        ${state.user?`<button class="btn${isFav?' btn-pink':' btn-outline'}" style="width:100%;justify-content:center;margin-top:12px" onclick="toggleFavDetail(${id})" id="det-fav-btn">
+          ${isFav?'♥ Favorited':'♡ Add to Favorites'}
+        </button>`:''}
+      </div>
+      <div>
+        <div class="detail-tag">${a.genre}</div>
+        <h1 class="detail-title">${a.title}</h1>
+        <div class="detail-meta">
+          <span class="chip chip-p">👁 ${fmtNum(a.views)} views</span>
+          <span class="chip chip-c">📅 ${a.added}</span>
+          <span class="chip chip-g">🎌 ${a.genre}</span>
+        </div>
+        <p class="detail-desc">${a.description}</p>
+        <div class="detail-actions">
+          <a href="${a.url}" class="btn btn-grad" target="_blank">⬇ Download Now</a>
+          <button class="btn btn-ghost" onclick="backToList()">← Back</button>
+        </div>
+
+        <!-- Comments -->
+        <div style="margin-top:40px">
+          <div class="dash-sec-title" style="margin-bottom:16px">Comments (${comms.length})</div>
+          ${state.user?`<div class="comment-form" style="margin-bottom:24px">
+            <textarea id="comm-text" placeholder="Write a comment…"></textarea>
+            <button class="btn btn-grad btn-sm" onclick="postComment(${id})" style="margin-top:10px">Post Comment</button>
+          </div>`:'<p style="color:var(--text3);font-family:var(--font-u);font-size:.85rem;margin-bottom:24px"><a href="#" onclick="nav(\'login\');return false" style="color:var(--purple-l)">Login</a> to comment.</p>'}
+          <div class="comment-list">
+            ${comms.length ? comms.map(c=>`
+              <div class="comment">
+                <div class="comment-head">
+                  <div class="comment-av">${c.username[0].toUpperCase()}</div>
+                  <div class="comment-name">${c.username}</div>
+                  <div class="comment-date">${new Date(c.date).toLocaleDateString()}</div>
+                </div>
+                <div class="comment-text">${c.text}</div>
+              </div>`).join('') : '<p style="color:var(--text3);font-family:var(--font-u);font-size:.85rem">No comments yet. Be first!</p>'}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  nav('downloads');
+}
+
+function backToList(){
+  document.getElementById('dl-list-view').style.display='';
+  document.getElementById('dl-detail-view').style.display='none';
+  document.getElementById('dl-detail-view').innerHTML='';
+}
+
+/* ══════════════════════════════════
+   FAVORITES
+══════════════════════════════════ */
+function toggleFav(e, id){
+  e.stopPropagation();
+  if(!state.user){ toast('Login to add favorites','info'); nav('login'); return; }
+  const favs = DB.get('favorites')||[];
+  const idx  = favs.findIndex(f=>f.userId===state.user.id && f.animeId===id);
+  if(idx>-1){ favs.splice(idx,1); toast('Removed from favorites','info'); }
+  else{ favs.push({userId:state.user.id, animeId:id, date:new Date().toISOString()}); toast('Added to favorites ♥','success'); }
+  DB.set('favorites', favs);
+  buildHomeGrid(); buildDLGrid();
+}
+
+function toggleFavDetail(id){
+  if(!state.user) return;
+  const favs = DB.get('favorites')||[];
+  const idx  = favs.findIndex(f=>f.userId===state.user.id && f.animeId===id);
+  if(idx>-1){ favs.splice(idx,1); toast('Removed from favorites','info'); }
+  else{ favs.push({userId:state.user.id, animeId:id, date:new Date().toISOString()}); toast('Added to favorites ♥','success'); }
+  DB.set('favorites', favs);
+  // Update button
+  const isFav = favs.some(f=>f.userId===state.user.id && f.animeId===id);
+  const btn = document.getElementById('det-fav-btn');
+  if(btn){
+    btn.className = `btn${isFav?' btn-pink':' btn-outline'}`;
+    btn.style.cssText='width:100%;justify-content:center;margin-top:12px';
+    btn.textContent = isFav?'♥ Favorited':'♡ Add to Favorites';
+  }
+}
+
+/* ══════════════════════════════════
+   COMMENTS
+══════════════════════════════════ */
+function postComment(animeId){
+  const txt = document.getElementById('comm-text')?.value.trim();
+  if(!txt){ toast('Comment cannot be empty','error'); return; }
+  const comms = DB.get('comments')||[];
+  comms.push({ id:Date.now(), animeId, userId:state.user.id, username:state.user.username, text:txt, date:new Date().toISOString() });
+  DB.set('comments', comms);
+  toast('Comment posted ✓','success');
+  showDetail(animeId);
+}
+
+/* ══════════════════════════════════
+   DASHBOARD
+══════════════════════════════════ */
+function buildDashboard(){
+  if(!state.user) return;
+  const u = state.user;
+  document.getElementById('dash-av').textContent    = u.username[0].toUpperCase();
+  document.getElementById('dash-name').textContent  = u.username;
+  document.getElementById('dash-badge').textContent = u.role;
+  document.getElementById('dash-badge').className   = 'av-badge'+(u.role==='admin'?' admin':'');
+  document.getElementById('dash-email').textContent = u.email;
+
+  const favs  = (DB.get('favorites')||[]).filter(f=>f.userId===u.id);
+  const comms = (DB.get('comments')||[]).filter(c=>c.userId===u.id);
+  const days  = Math.floor((Date.now()-new Date(u.joined))/86400000);
+
+  document.getElementById('stat-fav').textContent  = favs.length;
+  document.getElementById('stat-comm').textContent = comms.length;
+  document.getElementById('stat-days').textContent = days;
+
+  // Profile tab
+  document.getElementById('prof-user').value  = u.username;
+  document.getElementById('prof-email').value = u.email;
+  document.getElementById('prof-since').value = new Date(u.joined).toLocaleDateString();
+
+  // Fav grids
+  const allAnime = getAnime();
+  const favAnime = favs.map(f=>allAnime.find(a=>a.id===f.animeId)).filter(Boolean);
+  const grid1 = document.getElementById('dash-fav-grid');
+  const grid2 = document.getElementById('dash-all-fav');
+  const empty = `<p style="color:var(--text3);font-family:var(--font-u);font-size:.85rem;grid-column:1/-1">No favorites yet — browse the library! 🎌</p>`;
+  grid1.innerHTML = favAnime.length ? favAnime.slice(0,4).map((a,i)=>cardHTML(a,i)).join('') : empty;
+  grid2.innerHTML = favAnime.length ? favAnime.map((a,i)=>cardHTML(a,i)).join('') : empty;
+}
+
+function dashTab(name){
+  ['overview','favorites','profile'].forEach(t=>{
+    const el = document.getElementById('dash-'+t);
+    const pt = document.getElementById('dash-'+t+'-tab');
+    const tab = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===name ? '' : 'none';
+    if(pt) pt.style.display = t===name ? '' : 'none';
+    if(tab) tab.classList.toggle('on', t===name);
+  });
+  // special case profile
+  document.getElementById('dash-profile-tab').style.display  = name==='profile' ? '' : 'none';
+  document.getElementById('dash-overview').style.display     = name==='overview' ? '' : 'none';
+  document.getElementById('dash-favorites').style.display    = name==='favorites' ? '' : 'none';
+}
+
+/* ══════════════════════════════════
+   ADMIN
+══════════════════════════════════ */
+function adminTab(name){
+  ['list','upload','users'].forEach(t=>{
+    const el  = document.getElementById('admin-'+t);
+    const tab = document.getElementById('atab-'+t);
+    if(el) el.style.display  = t===name ? '' : 'none';
+    if(tab) tab.classList.toggle('on', t===name);
+  });
+  if(name==='users') buildAdminUsers();
+}
+
+function buildAdminTable(){
+  const list = getAnime();
+  document.getElementById('admin-tbody').innerHTML = list.map((a,i)=>`
+    <tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td><img class="tbl-thumb" src="${a.thumb}" onerror="this.src='https://placehold.co/44x62/0a0a18/7c3aed?text=?'" alt="${a.title}"></td>
+      <td style="font-family:var(--font-u);font-weight:600;max-width:200px">${a.title}</td>
+      <td><span class="chip chip-c" style="padding:3px 9px;font-size:.7rem">${a.genre}</span></td>
+      <td style="color:var(--text2)">${fmtNum(a.views)}</td>
+      <td style="color:var(--text3);font-family:var(--font-u);font-size:.8rem">${a.added}</td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-xs" onclick="adminEdit(${a.id})">Edit</button>
+        <button class="btn btn-danger btn-xs" onclick="adminDelete(${a.id})">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function buildAdminUsers(){
+  const users = (DB.get('users')||[]);
+  document.getElementById('admin-users-tbody').innerHTML = users.map((u,i)=>`
+    <tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td style="font-family:var(--font-u);font-weight:600">${u.username}</td>
+      <td style="color:var(--text2)">${u.email}</td>
+      <td><span class="chip ${u.role==='admin'?'chip-c':'chip-p'}" style="padding:3px 9px;font-size:.7rem">${u.role}</span></td>
+      <td style="color:var(--text3);font-family:var(--font-u);font-size:.8rem">${new Date(u.joined).toLocaleDateString()}</td>
+      <td>${u.id===1?'<span style="color:var(--text3);font-family:var(--font-u);font-size:.78rem">Protected</span>':`<button class="btn btn-danger btn-xs" onclick="adminDeleteUser(${u.id})">Remove</button>`}</td>
+    </tr>`).join('');
+}
+
+function adminUpload(){
+  const title = document.getElementById('up-title').value.trim();
+  const genre = document.getElementById('up-genre').value;
+  const thumb = document.getElementById('up-thumb').value.trim();
+  const desc  = document.getElementById('up-desc').value.trim();
+  const url   = document.getElementById('up-url').value.trim();
+  if(!title){ document.getElementById('upload-alert').innerHTML=alertHTML('Title is required','err'); return; }
+
+  const list = getAnime();
+  const id   = state.editId || Date.now();
+  const idx  = list.findIndex(a=>a.id===id);
+  const item = { id, title, genre:genre||'Action', thumb:thumb||'https://placehold.co/300x420/0a0a18/7c3aed?text='+encodeURIComponent(title), description:desc||'No description.', url:url||'#', views: idx>-1?list[idx].views:0, added:idx>-1?list[idx].added:new Date().toISOString().split('T')[0] };
+
+  if(idx>-1) list[idx]=item; else list.unshift(item);
+  DB.set('anime', list);
+  state.editId=null;
+  ['up-title','up-thumb','up-desc','up-url'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('up-genre').value='';
+  document.getElementById('upload-alert').innerHTML='';
+  buildAdminTable(); buildHomeGrid(); buildDLGrid();
+  adminTab('list');
+  toast(idx>-1?'Anime updated ✓':'Anime uploaded ✓','success');
+}
+
+function adminEdit(id){
+  const a = getAnime().find(x=>x.id===id);
+  if(!a) return;
+  state.editId=id;
+  adminTab('upload');
+  document.getElementById('up-title').value = a.title;
+  document.getElementById('up-genre').value = a.genre;
+  document.getElementById('up-thumb').value = a.thumb;
+  document.getElementById('up-desc').value  = a.description;
+  document.getElementById('up-url').value   = a.url;
+  document.getElementById('upload-alert').innerHTML = alertHTML('Editing: '+a.title,'ok');
+}
+
+function adminDelete(id){
+  openModal('Delete Anime',`<p style="color:var(--text2);margin-bottom:24px">Are you sure you want to delete this anime? This cannot be undone.</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-danger" onclick="confirmAdminDelete(${id})">Yes, Delete</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    </div>`);
+}
+function confirmAdminDelete(id){
+  const list = getAnime().filter(a=>a.id!==id);
+  DB.set('anime', list);
+  buildAdminTable(); buildHomeGrid(); buildDLGrid();
+  closeModal();
+  toast('Anime deleted.','info');
+}
+
+function adminDeleteUser(id){
+  openModal('Remove User',`<p style="color:var(--text2);margin-bottom:24px">Remove this user? Their data will be deleted.</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-danger" onclick="confirmDeleteUser(${id})">Remove</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    </div>`);
+}
+function confirmDeleteUser(id){
+  const users = (DB.get('users')||[]).filter(u=>u.id!==id);
+  DB.set('users', users);
+  buildAdminUsers();
+  closeModal();
+  toast('User removed.','info');
+}
+
+/* ══════════════════════════════════
+   FEATURED SLIDER
+══════════════════════════════════ */
+let sliderIdx=0, sliderTimer;
+function buildSlider(){
+  const list = getAnime().sort((a,b)=>b.views-a.views).slice(0,5);
+  const track = document.getElementById('slider-track');
+  const dots  = document.getElementById('slider-dots');
+  if(!track||!dots) return;
+  track.innerHTML = list.map(a=>`
+    <div class="slide">
+      <img src="${a.thumb}" alt="${a.title}" loading="lazy" onerror="this.src='https://placehold.co/1200x420/0a0a18/7c3aed?text=No+Image'">
+      <div class="slide-overlay">
+        <div class="slide-genre">${a.genre}</div>
+        <div class="slide-title">${a.title}</div>
+        <p class="slide-desc">${a.description}</p>
+        <button class="btn btn-grad btn-sm" onclick="showDetail(${a.id})">Download ↗</button>
+      </div>
+    </div>`).join('');
+  dots.innerHTML = list.map((_,i)=>`<div class="s-dot${i===0?' on':''}" onclick="goSlide(${i})"></div>`).join('');
+  document.getElementById('sl-prev').onclick=()=>goSlide(sliderIdx-1);
+  document.getElementById('sl-next').onclick=()=>goSlide(sliderIdx+1);
+  sliderTimer=setInterval(()=>goSlide(sliderIdx+1),4500);
+}
+function goSlide(i){
+  const slides = document.querySelectorAll('.slide');
+  sliderIdx=(i+slides.length)%slides.length;
+  document.getElementById('slider-track').style.transform=`translateX(-${sliderIdx*100}%)`;
+  document.querySelectorAll('.s-dot').forEach((d,i)=>d.classList.toggle('on',i===sliderIdx));
+  clearInterval(sliderTimer);
+  sliderTimer=setInterval(()=>goSlide(sliderIdx+1),4500);
+}
+
+/* ══════════════════════════════════
+   MODAL
+══════════════════════════════════ */
+function openModal(title, content){
+  document.getElementById('modal-content').innerHTML=`<div class="modal-title">${title}</div>${content}`;
+  document.getElementById('modal-bg').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-bg').classList.remove('open'); }
+document.getElementById('modal-close').onclick=closeModal;
+document.getElementById('modal-bg').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+/* ══════════════════════════════════
+   TOAST
+══════════════════════════════════ */
+function toast(msg, type='info'){
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = {success:'✓',error:'✕',info:'ℹ'};
+  t.innerHTML = `<span>${icons[type]||'•'}</span>${msg}`;
+  wrap.appendChild(t);
+  setTimeout(()=>{ t.classList.add('hide'); setTimeout(()=>t.remove(),300); },3200);
+}
+
+/* ══════════════════════════════════
+   CANVAS PARTICLES
+══════════════════════════════════ */
+function initParticles(){
+  const canvas=document.getElementById('bg-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
+  const N=Math.min(70,Math.floor(W*H/14000));
+  const pts=[];
+  for(let i=0;i<N;i++) pts.push(mkPt(true));
+  function mkPt(rand){
+    return { x:Math.random()*W, y:rand?Math.random()*H:H+5,
+      vy:-(Math.random()*.5+.15), vx:(Math.random()-.5)*.25,
+      r:Math.random()*1.8+.4, a:Math.random()*.5+.15,
+      col:Math.random()>.5?'124,58,237':'6,182,212' };
+  }
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach((p,i)=>{
+      p.y+=p.vy; p.x+=p.vx; p.a-=.0006;
+      if(p.y<-5||p.a<=0) Object.assign(p,mkPt(false));
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.col},${p.a})`; ctx.fill();
+      // connections
+      for(let j=i+1;j<pts.length;j++){
+        const dx=p.x-pts[j].x, dy=p.y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<110){ ctx.beginPath(); ctx.strokeStyle=`rgba(124,58,237,${.07*(1-d/110)})`; ctx.lineWidth=.5;
+          ctx.moveTo(p.x,p.y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke(); }
+      }
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+  window.addEventListener('resize',()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
+}
+
+/* ══════════════════════════════════
+   CUSTOM CURSOR
+══════════════════════════════════ */
+function initCursor(){
+  const ring=document.getElementById('cring');
+  const dot=document.getElementById('cdot');
+  if(!ring||!dot) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  document.addEventListener('mousedown',()=>ring.classList.add('click'));
+  document.addEventListener('mouseup',  ()=>ring.classList.remove('click'));
+  (function animate(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animate); })();
+}
+
+/* ══════════════════════════════════
+   UTIL
+══════════════════════════════════ */
+function fmtNum(n){ return n>=1000?(n/1000).toFixed(1)+'K':n; }
+
+// Burger
+document.getElementById('burger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('nav-links').classList.toggle('open');
+});
+
+// Keyboard nav
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
