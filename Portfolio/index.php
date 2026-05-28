@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Ivan Olajide Joseph — Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05060f;
+  --bg2:#080a18;
+  --bg3:#0c0e1e;
+  --surface:rgba(255,255,255,0.04);
+  --blue:#00d4ff;
+  --purple:#a855f7;
+  --pink:#f472b6;
+  --gradient:linear-gradient(135deg,#00d4ff,#a855f7);
+  --gradient2:linear-gradient(135deg,#a855f7,#f472b6);
+  --white:#f0f4ff;
+  --grey:#8892b0;
+  --grey2:#4a5270;
+  --border:rgba(255,255,255,0.07);
+  --glow-b:rgba(0,212,255,0.15);
+  --glow-p:rgba(168,85,247,0.15);
+  --sidebar:72px;
+  --font-d:'Bebas Neue',sans-serif;
+  --font-b:'Outfit',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:var(--font-b);
+  overflow-x:hidden;
+  cursor:none;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+
+/* ── CURSOR ── */
+#cd{position:fixed;pointer-events:none;z-index:99999;top:0;left:0;width:20px;height:24px;transition:transform .15s var(--ease),opacity .2s}
+#cd svg{width:20px;height:24px;filter:drop-shadow(0 0 4px rgba(0,212,255,.6));transition:filter .2s}
+#cr{position:fixed;pointer-events:none;z-index:99998;top:0;left:0;width:6px;height:6px;background:var(--blue);border-radius:50%;transform:translate(-50%,-50%);opacity:.5;box-shadow:0 0 6px var(--blue);transition:width .25s var(--ease),height .25s var(--ease),background .25s,opacity .25s,border-radius .25s,border .25s}
+body.ch #cd{transform:scale(1.2)}
+body.ch #cd svg{filter:drop-shadow(0 0 8px rgba(0,212,255,.9))}
+body.ch #cr{width:36px;height:36px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.4);border-radius:4px;opacity:1}
+
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .8s var(--ease),visibility .8s}
+#loader.out{opacity:0;visibility:hidden}
+.ld-txt{font-family:var(--font-d);font-size:clamp(3rem,8vw,6rem);letter-spacing:.1em;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ld-bar{width:220px;height:1px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+.ld-fill{height:100%;width:0;background:var(--gradient);animation:ldF 2s var(--ease) forwards;box-shadow:0 0 12px var(--blue)}
+@keyframes ldF{to{width:100%}}
+.ld-n{font-family:var(--font-m);font-size:.65rem;color:var(--grey);letter-spacing:.2em}
+
+/* ── SCROLL PROGRESS ── */
+#sp{position:fixed;top:0;left:var(--sidebar);right:0;height:2px;width:0;background:var(--gradient);z-index:9999;box-shadow:0 0 8px var(--blue);transition:width .08s linear}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  position:fixed;top:0;left:0;bottom:0;
+  width:var(--sidebar);
+  background:rgba(5,6,15,0.95);
+  backdrop-filter:blur(20px);
+  border-right:1px solid var(--border);
+  z-index:500;
+  display:flex;flex-direction:column;align-items:center;
+  padding:2rem 0;
+  gap:0;
+}
+.sb-logo{
+  font-family:var(--font-d);
+  font-size:1.4rem;
+  letter-spacing:.05em;
+  background:var(--gradient);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:2.5rem;
+}
+.sb-nav{display:flex;flex-direction:column;gap:.25rem;flex:1;width:100%}
+.sb-link{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.35rem;padding:.85rem .5rem;
+  color:var(--grey2);font-size:.55rem;font-family:var(--font-m);
+  letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;
+  transition:color .3s,background .3s;
+  position:relative;
+  border-left:2px solid transparent;
+}
+.sb-link i{font-size:1.1rem;transition:color .3s}
+.sb-link:hover,.sb-link.active{color:var(--white);background:rgba(0,212,255,.06);border-left-color:var(--blue)}
+.sb-link:hover i,.sb-link.active i{color:var(--blue)}
+
+/* Dot nav right side */
+.dot-nav{display:flex;flex-direction:column;gap:.75rem;position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);z-index:400}
+.dot{width:8px;height:8px;border-radius:50%;border:1px solid var(--grey2);cursor:pointer;transition:.3s}
+.dot.on{background:var(--blue);border-color:var(--blue);box-shadow:0 0 8px var(--blue)}
+
+/* CV download button in sidebar */
+.sb-cv{
+  margin-top:auto;
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;
+  padding:.85rem .5rem;
+  background:rgba(0,212,255,.08);
+  border:1px solid rgba(0,212,255,.2);
+  border-radius:4px;
+  margin:auto 8px 1rem;
+  cursor:pointer;
+  color:var(--blue);
+  font-family:var(--font-m);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;
+  transition:.3s;
+  text-decoration:none;
+  text-align:center;
+}
+.sb-cv i{font-size:1rem}
+.sb-cv:hover{background:rgba(0,212,255,.18);transform:translateY(-2px)}
+
+.sb-socials{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
+.sb-socials a{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:4px;color:var(--grey2);font-size:.8rem;transition:.3s;text-decoration:none}
+.sb-socials a:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── LAYOUT ── */
+main{margin-left:var(--sidebar)}
+section{min-height:100vh;position:relative}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#home{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  min-height:100vh;
+  padding:0 4rem 0 3rem;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Animated background */
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg canvas{width:100%;height:100%}
+
+/* Ambient glows */
+.glow-1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,.12) 0%,transparent 70%);top:-100px;left:20%;pointer-events:none;animation:gFloat 8s ease-in-out infinite alternate}
+.glow-2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);bottom:-100px;right:0;pointer-events:none;animation:gFloat 10s ease-in-out infinite alternate-reverse}
+@keyframes gFloat{from{transform:translateY(0) scale(1)}to{transform:translateY(-30px) scale(1.05)}}
+
+/* Grid lines overlay */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+/* Available badge */
+.avail{
+  position:absolute;top:2rem;right:2rem;
+  display:flex;align-items:center;gap:.6rem;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(10px);
+  padding:.5rem 1.25rem;
+  border-radius:50px;
+  font-family:var(--font-m);font-size:.65rem;
+  letter-spacing:.1em;color:var(--grey);
+  z-index:5;
+}
+.avail-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 8px #4ade80}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+
+.hero-left{position:relative;z-index:2}
+
+.hero-eyebrow{
+  display:flex;align-items:center;gap:1rem;
+  font-family:var(--font-m);font-size:.68rem;
+  letter-spacing:.25em;color:var(--blue);
+  text-transform:uppercase;margin-bottom:1.5rem;
+  opacity:0;animation:hUp .7s .3s var(--ease) forwards;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;max-width:50px;height:1px;background:var(--blue);opacity:.5}
+
+.hero-name{
+  font-family:var(--font-d);
+  font-size:clamp(5rem,9vw,10rem);
+  line-height:.88;letter-spacing:.02em;
+  margin-bottom:1.5rem;
+  opacity:0;animation:hUp .8s .5s var(--ease) forwards;
+}
+.hero-name .gname{
+  display:block;
+  background:var(--gradient);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-name .dot{color:var(--pink);-webkit-text-fill-color:var(--pink)}
+
+.hero-sub{
+  font-size:1.05rem;color:var(--grey);line-height:1.75;
+  max-width:460px;margin-bottom:2.5rem;
+  opacity:0;animation:hUp .8s .7s var(--ease) forwards;
+}
+.hero-sub strong{color:var(--blue)}
+.hero-sub em{color:var(--purple);font-style:normal;font-weight:600}
+
+.hero-btns{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  opacity:0;animation:hUp .8s .85s var(--ease) forwards;
+}
+.hbtn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.85rem 2rem;border-radius:4px;
+  font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:.35s var(--ease);border:none;text-decoration:none;
+  position:relative;overflow:hidden;
+}
+.hbtn-primary{background:transparent;border:1.5px solid var(--blue);color:var(--blue)}
+.hbtn-primary::before{content:'';position:absolute;inset:0;background:var(--gradient);opacity:0;transition:opacity .3s}
+.hbtn-primary:hover{color:#000;transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,212,255,.3)}
+.hbtn-primary:hover::before{opacity:1}
+.hbtn-primary span{position:relative;z-index:1}
+.hbtn-secondary{background:rgba(255,255,255,.05);border:1.5px solid var(--border);color:var(--grey)}
+.hbtn-secondary:hover{border-color:var(--purple);color:var(--white);transform:translateY(-3px)}
+
+/* Hero right — photo in glowing frame */
+.hero-right{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;animation:hUp .9s .6s var(--ease) forwards;
+}
+
+.photo-frame{
+  position:relative;
+  width:min(400px,42vw);
+}
+
+/* Animated neon border */
+.photo-border{
+  position:absolute;inset:-12px;
+  border:1px solid rgba(0,212,255,.3);
+  border-radius:4px;
+  animation:borderGlow 3s ease-in-out infinite;
+}
+.photo-border-2{
+  position:absolute;inset:-24px;
+  border:1px solid rgba(168,85,247,.15);
+  border-radius:8px;
+  animation:borderGlow2 4s ease-in-out infinite;
+}
+@keyframes borderGlow{0%,100%{border-color:rgba(0,212,255,.3);box-shadow:0 0 20px rgba(0,212,255,.1)}50%{border-color:rgba(0,212,255,.8);box-shadow:0 0 40px rgba(0,212,255,.25),inset 0 0 30px rgba(0,212,255,.05)}}
+@keyframes borderGlow2{0%,100%{border-color:rgba(168,85,247,.1)}50%{border-color:rgba(168,85,247,.4);box-shadow:0 0 60px rgba(168,85,247,.1)}}
+
+.photo-frame img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  object-position:center 10%;
+  border-radius:4px;
+  filter:contrast(1.05) saturate(1.1);
+  display:block;
+}
+
+/* Photo overlay gradient */
+.photo-frame::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(5,6,15,.8) 100%),
+             linear-gradient(90deg,rgba(5,6,15,.3) 0%,transparent 30%);
+  border-radius:4px;pointer-events:none;
+}
+
+/* Corner accents */
+.photo-corner{position:absolute;width:20px;height:20px;border-color:var(--blue);border-style:solid}
+.pc-tl{top:8px;left:8px;border-width:2px 0 0 2px}
+.pc-tr{top:8px;right:8px;border-width:2px 2px 0 0}
+.pc-bl{bottom:8px;left:8px;border-width:0 0 2px 2px}
+.pc-br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+
+/* Floating badges on photo */
+.exp-badge{
+  position:absolute;bottom:1.5rem;right:-1.5rem;
+  background:linear-gradient(135deg,rgba(168,85,247,.9),rgba(0,212,255,.9));
+  backdrop-filter:blur(10px);
+  padding:1rem 1.5rem;border-radius:6px;
+  font-family:var(--font-b);
+  box-shadow:0 8px 32px rgba(168,85,247,.4);
+  border:1px solid rgba(255,255,255,.15);
+}
+.exp-badge .n{font-size:2rem;font-weight:900;line-height:1;display:block}
+.exp-badge .l{font-size:.7rem;font-weight:500;opacity:.9}
+
+/* Floating tech chips */
+.tech-chip{
+  position:absolute;
+  background:rgba(5,6,15,.85);
+  border:1px solid rgba(0,212,255,.3);
+  backdrop-filter:blur(10px);
+  padding:.4rem .85rem;
+  border-radius:50px;
+  font-family:var(--font-m);font-size:.6rem;
+  letter-spacing:.1em;color:var(--blue);
+  animation:chipFloat 4s ease-in-out infinite;
+}
+.chip-1{top:15%;left:-1rem;animation-delay:0s}
+.chip-2{top:45%;left:-2rem;animation-delay:1.5s;border-color:rgba(168,85,247,.3);color:var(--purple)}
+.chip-3{top:75%;left:-0.5rem;animation-delay:3s;border-color:rgba(244,114,182,.3);color:var(--pink)}
+@keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Hero stats strip */
+.hero-stats{
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:10;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border);
+  background:rgba(5,6,15,.8);backdrop-filter:blur(20px);
+}
+.hs{
+  padding:1.25rem 1.5rem;
+  border-right:1px solid var(--border);
+  opacity:0;animation:hUp .6s var(--ease) forwards;
+}
+.hs:nth-child(1){animation-delay:1s}
+.hs:nth-child(2){animation-delay:1.1s}
+.hs:nth-child(3){animation-delay:1.2s}
+.hs:nth-child(4){animation-delay:1.3s}
+.hs:last-child{border-right:none}
+.hs-n{font-family:var(--font-d);font-size:2.2rem;letter-spacing:.02em;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.hs-l{font-family:var(--font-m);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);margin-top:.2rem}
+
+@keyframes hUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+#about{
+  padding:8rem 4rem 8rem 3rem;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+  background:var(--bg2);
+}
+.sec-label{font-family:var(--font-m);font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--blue);margin-bottom:.75rem}
+.sec-title{font-family:var(--font-d);font-size:clamp(3rem,5vw,6rem);line-height:.92;letter-spacing:.02em;margin-bottom:2rem}
+.sec-title .g{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-title .p{background:var(--gradient2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.about-text p{color:var(--grey);font-size:.95rem;line-height:1.9;font-weight:300;margin-bottom:1.25rem}
+.about-text p strong{color:var(--white);font-weight:600}
+
+.about-meta{display:flex;flex-direction:column;gap:.6rem;margin:2rem 0}
+.am{display:flex;align-items:center;gap:.85rem;font-size:.85rem;color:var(--grey)}
+.am i{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15);border-radius:6px;color:var(--blue);font-size:.85rem;flex-shrink:0}
+
+/* About right — stats cards */
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.acard{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.75rem;
+  position:relative;overflow:hidden;
+  transition:.35s var(--ease);
+}
+.acard:hover{transform:translateY(-6px);border-color:rgba(0,212,255,.3);box-shadow:0 20px 60px rgba(0,212,255,.08)}
+.acard::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 0 0,var(--c) 0%,transparent 60%);opacity:.06;pointer-events:none}
+.acard-ico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1)}
+.acard-n{font-family:var(--font-d);font-size:3rem;line-height:1;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.acard-l{font-size:.78rem;color:var(--grey);margin-top:.3rem;font-weight:400}
+
+/* ═══════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════ */
+#skills{padding:8rem 4rem 8rem 3rem;background:var(--bg)}
+
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.sk-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:2rem;
+  transition:.35s var(--ease);
+  position:relative;overflow:hidden;
+}
+.sk-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gradient);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.sk-card:hover{transform:translateY(-6px);border-color:rgba(0,212,255,.2);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.sk-card:hover::before{transform:scaleX(1)}
+.sk-ico{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.25rem;background:var(--bg2);border:1px solid var(--border);color:var(--skill-c)}
+.sk-ico i{filter:drop-shadow(0 0 6px var(--skill-c))}
+.sk-name{font-weight:700;font-size:1rem;margin-bottom:.25rem}
+.sk-lvl{font-family:var(--font-m);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);margin-bottom:1rem}
+.sk-track{height:3px;background:rgba(255,255,255,.06);border-radius:50px;overflow:hidden;margin-bottom:.4rem}
+.sk-fill{height:100%;width:0;border-radius:50px;background:var(--gradient);box-shadow:0 0 8px var(--blue);transition:width 1.6s var(--ease)}
+.sk-pct{font-family:var(--font-m);font-size:.62rem;color:var(--grey)}
+
+/* ═══════════════════════════════════════
+   WORK / PROJECTS
+═══════════════════════════════════════ */
+#work{padding:8rem 4rem 8rem 3rem;background:var(--bg2)}
+.filter-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.fb{padding:.5rem 1.4rem;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--grey);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:.3s}
+.fb:hover{border-color:var(--blue);color:var(--white)}
+.fb.on{background:var(--gradient);border-color:transparent;color:#000}
+
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.wcard{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  transition:.4s var(--ease);
+  position:relative;
+}
+.wcard:hover{transform:translateY(-8px);border-color:rgba(0,212,255,.3);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(0,212,255,.1)}
+.wcard.hidden{display:none}
+
+.wcard-thumb{
+  height:200px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:var(--bg);
+}
+.wcard-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,var(--tc) 0%,transparent 65%);opacity:.12}
+.wcard-ico{font-size:4rem;color:var(--tc);opacity:.5;transition:.4s var(--ease);position:relative;z-index:1;filter:drop-shadow(0 0 20px var(--tc))}
+.wcard:hover .wcard-ico{opacity:1;transform:scale(1.1)}
+
+.wcard-ov{position:absolute;inset:0;background:rgba(5,6,15,.85);display:flex;align-items:center;justify-content:center;gap:.75rem;opacity:0;transition:.4s;backdrop-filter:blur(8px);z-index:2}
+.wcard:hover .wcard-ov{opacity:1}
+.ov-btn{padding:.6rem 1.25rem;border-radius:6px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:.3s;display:flex;align-items:center;gap:.4rem}
+.ov-btn-p{background:var(--gradient);color:#000}
+.ov-btn-wa{background:rgba(37,211,102,.9);color:#fff}
+
+.wcard-body{padding:1.5rem}
+.wcard-num{font-family:var(--font-m);font-size:.58rem;letter-spacing:.2em;color:var(--grey2);text-transform:uppercase;margin-bottom:.4rem}
+.wcard-title{font-family:var(--font-d);font-size:1.6rem;letter-spacing:.02em;margin-bottom:.5rem;line-height:1}
+.wcard-desc{color:var(--grey);font-size:.82rem;line-height:1.75;margin-bottom:1rem;font-weight:300}
+.wcard-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.25rem}
+.wtag{padding:.18rem .6rem;border-radius:50px;border:1px solid rgba(0,212,255,.15);color:rgba(0,212,255,.7);font-family:var(--font-m);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase}
+.wcard-actions{display:flex;gap:.5rem}
+
+/* ═══════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════ */
+#contact{padding:8rem 4rem 8rem 3rem;background:var(--bg)}
+.contact-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start}
+.c-title{font-family:var(--font-d);font-size:clamp(2.5rem,5vw,6rem);line-height:.92;letter-spacing:.02em;margin-bottom:1.5rem}
+.c-title .g{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.c-sub{color:var(--grey);font-size:.9rem;line-height:1.85;font-weight:300;margin-bottom:2.5rem}
+.c-items{display:flex;flex-direction:column;gap:.75rem}
+.ci{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--grey);text-decoration:none;transition:.3s}
+.ci:hover{border-color:rgba(0,212,255,.3);color:var(--white);transform:translateX(4px)}
+.ci i{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15);border-radius:6px;color:var(--blue);font-size:.85rem;flex-shrink:0}
+
+.c-form{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:3rem}
+.fg{margin-bottom:1.5rem}
+.fg label{display:block;font-family:var(--font-m);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:.5rem}
+.fg input,.fg textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem;color:var(--white);font-size:.9rem;font-family:var(--font-b);outline:none;resize:vertical;transition:.3s}
+.fg input:focus,.fg textarea:focus{border-color:rgba(0,212,255,.5);box-shadow:0 0 0 3px rgba(0,212,255,.06)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--grey2)}
+.sbtn{width:100%;padding:1rem;background:var(--gradient);border:none;border-radius:8px;color:#000;font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:.3s;font-family:var(--font-b)}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,212,255,.3)}
+
+/* ── FOOTER ── */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 4rem 2rem 3rem;display:flex;justify-content:space-between;align-items:center}
+.foot-logo{font-family:var(--font-d);font-size:1.5rem;letter-spacing:.06em;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.foot-copy{font-family:var(--font-m);font-size:.6rem;letter-spacing:.1em;color:var(--grey2)}
+.foot-links{display:flex;gap:.6rem}
+.foot-links a{width:34px;height:34px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--grey2);font-size:.8rem;text-decoration:none;transition:.3s}
+.foot-links a:hover{border-color:var(--blue);color:var(--blue)}
+
+/* Floating WA */
+.fwa{position:fixed;bottom:2rem;right:2rem;width:52px;height:52px;background:#25d366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;z-index:900;box-shadow:0 8px 30px rgba(37,211,102,.3);transition:.35s var(--ease);text-decoration:none}
+.fwa:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 16px 40px rgba(37,211,102,.4)}
+.fwa-tip{position:absolute;right:calc(100% + 10px);white-space:nowrap;background:var(--bg3);border:1px solid var(--border);color:var(--white);font-size:.7rem;padding:.35rem .8rem;border-radius:6px;font-family:var(--font-m);opacity:0;pointer-events:none;transition:opacity .3s}
+.fwa:hover .fwa-tip{opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  #home{grid-template-columns:1fr;padding-bottom:6rem}
+  .hero-right{display:none}
+  #about,#contact{grid-template-columns:1fr}
+  .work-grid{grid-template-columns:1fr 1fr}
+  .skills-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  :root{--sidebar:0px}
+  #sidebar{display:none}
+  main{margin-left:0}
+  #home,#about,#skills,#work,#contact{padding:5rem 1.5rem}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .about-cards{grid-template-columns:1fr 1fr}
+  .work-grid,#skills .skills-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+  .dot-nav{display:none}
+  #cd,#cr{display:none}
+  body{cursor:auto}
+}
+</style>
+</head>
+<body>
+<!-- Custom cursor: sharp arrow + glow dot -->
+<div id="cd">
+  <svg viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2L18 10L10 12L7 20L2 2Z" fill="url(#cg)" stroke="rgba(0,212,255,0.6)" stroke-width="0.8"/>
+    <defs>
+      <linearGradient id="cg" x1="2" y1="2" x2="18" y2="20" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#00d4ff"/>
+        <stop offset="100%" stop-color="#a855f7"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+<div id="cr"></div>
+<div id="sp"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-txt">IVAN JOSEPH</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-n" id="ldp">Initializing...</div>
+</div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-logo">IJ.</div>
+  <div class="sb-nav">
+    <a href="#home"    class="sb-link active"><i class="fas fa-house"></i>Home</a>
+    <a href="#about"   class="sb-link"><i class="fas fa-user"></i>About</a>
+    <a href="#work"    class="sb-link"><i class="fas fa-briefcase"></i>Work</a>
+    <a href="#skills"  class="sb-link"><i class="fas fa-code"></i>Skills</a>
+    <a href="#contact" class="sb-link"><i class="fas fa-envelope"></i>Contact</a>
+  </div>
+  <a class="sb-cv" id="cvdl" href="#" download="Ivan_Olajide_Joseph_CV.docx">
+    <i class="fas fa-download"></i>CV
+  </a>
+  <div class="sb-socials">
+    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://wa.me/2348033090230" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</nav>
+
+<!-- DOT NAV -->
+<div class="dot-nav" id="dotnav">
+  <div class="dot on" data-sec="home"></div>
+  <div class="dot" data-sec="about"></div>
+  <div class="dot" data-sec="work"></div>
+  <div class="dot" data-sec="skills"></div>
+  <div class="dot" data-sec="contact"></div>
+</div>
+
+<main>
+<!-- ══════════ HERO ══════════ -->
+<section id="home">
+  <div class="hero-bg"><canvas id="starCanvas"></canvas></div>
+  <div class="hero-grid"></div>
+  <div class="glow-1"></div><div class="glow-2"></div>
+
+  <div class="avail"><div class="avail-dot"></div>Available for work</div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Frontend Developer</div>
+    <h1 class="hero-name">
+      Ivan<br>Olajide<br><span class="gname">Joseph<span class="dot">.</span></span>
+    </h1>
+    <p class="hero-sub">
+      I craft <strong>digital experiences</strong> that live at the intersection of <em>design &amp; code.</em><br>
+      Responsive websites. Clean PHP backends. Pixel-perfect UIs.
+    </p>
+    <div class="hero-btns">
+      <a href="#work" class="hbtn hbtn-primary"><span><i class="fas fa-eye"></i> View Work</span> <span>→</span></a>
+      <a href="#contact" class="hbtn hbtn-secondary">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="photo-frame">
+      <div class="photo-border"></div>
+      <div class="photo-border-2"></div>
+      <div class="photo-corner pc-tl"></div>
+      <div class="photo-corner pc-tr"></div>
+      <div class="photo-corner pc-bl"></div>
+      <div class="photo-corner pc-br"></div>
+      <img src="photo.png" alt="Ivan Olajide Joseph"/>
+      <div class="exp-badge">
+        <span class="n">2+</span>
+        <span class="l">Years Experience</span>
+      </div>
+      <div class="tech-chip chip-1">HTML / CSS</div>
+      <div class="tech-chip chip-2">PHP</div>
+      <div class="tech-chip chip-3">JavaScript</div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-n">30+</div><div class="hs-l">Projects Delivered</div></div>
+    <div class="hs"><div class="hs-n">100%</div><div class="hs-l">Client Satisfaction</div></div>
+    <div class="hs"><div class="hs-n">2+</div><div class="hs-l">Years Building</div></div>
+    <div class="hs"><div class="hs-n">6</div><div class="hs-l">Core Technologies</div></div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="about-left rv">
+    <div class="sec-label">Who I Am</div>
+    <div class="sec-title">Creative <span class="g">Mind,</span><br>Precise <span class="p">Code.</span></div>
+    <div class="about-text">
+      <p>I'm Ivan — a passionate frontend web developer based in <strong>Lagos, Nigeria</strong>, building modern, responsive websites that people actually enjoy using.</p>
+      <p>Skilled in <strong>HTML5, CSS3, and PHP</strong> with growing JavaScript knowledge. Every project gets my full attention — from pixel-perfect layouts to clean backend logic.</p>
+      <p>Currently taking <strong>Fiverr freelance projects</strong> and open to direct client work worldwide.</p>
+    </div>
+    <div class="about-meta">
+      <div class="am"><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</div>
+      <div class="am"><i class="fab fa-whatsapp"></i> +234 803 309 0230</div>
+      <div class="am"><i class="fas fa-envelope"></i> goldensta7@gmail.com</div>
+      <div class="am"><i class="fas fa-circle" style="color:#4ade80;font-size:.5rem"></i>&nbsp; Available for freelance work</div>
+    </div>
+    <a href="https://wa.me/2348033090230" target="_blank" class="hbtn hbtn-primary" style="display:inline-flex;margin-top:1rem">
+      <span><i class="fab fa-whatsapp"></i> Let's Work Together</span>
+    </a>
+  </div>
+  <div class="about-right rv">
+    <div class="about-cards">
+      <div class="acard rv" style="--c:rgba(0,212,255,.5)">
+        <div class="acard-ico" style="color:#00d4ff"><i class="fas fa-code"></i></div>
+        <div class="acard-n" data-t="30">0</div><span style="font-family:var(--font-d);font-size:1.5rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">+</span>
+        <div class="acard-l">Projects Completed</div>
+      </div>
+      <div class="acard rv" style="--c:rgba(168,85,247,.5)">
+        <div class="acard-ico" style="color:#a855f7"><i class="fas fa-smile"></i></div>
+        <div class="acard-n" data-t="100">0</div><span style="font-family:var(--font-d);font-size:1.5rem;background:var(--gradient2);-webkit-background-clip:text;-webkit-text-fill-color:transparent">%</span>
+        <div class="acard-l">Happy Clients</div>
+      </div>
+      <div class="acard rv" style="--c:rgba(244,114,182,.5)">
+        <div class="acard-ico" style="color:#f472b6"><i class="fas fa-star"></i></div>
+        <div class="acard-n" data-t="6">0</div>
+        <div class="acard-l">Core Skills</div>
+      </div>
+      <div class="acard rv" style="--c:rgba(0,212,255,.3)">
+        <div class="acard-ico" style="color:#00d4ff"><i class="fas fa-rocket"></i></div>
+        <div class="acard-n" data-t="2">0</div><span style="font-family:var(--font-d);font-size:1.5rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">+</span>
+        <div class="acard-l">Years Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SKILLS ══════════ -->
+<section id="skills">
+  <div style="padding:0 1rem">
+    <div class="sec-label rv">Expertise</div>
+    <div class="sec-title rv">My <span class="g">Skills</span></div>
+    <div class="skills-grid">
+      <div class="sk-card rv" style="--skill-c:#e34c26">
+        <div class="sk-ico"><i class="fab fa-html5"></i></div>
+        <div class="sk-name">HTML5</div>
+        <div class="sk-lvl">Expert</div>
+        <div class="sk-track"><div class="sk-fill" data-w="95"></div></div>
+        <div class="sk-pct">95%</div>
+      </div>
+      <div class="sk-card rv" style="--skill-c:#264de4">
+        <div class="sk-ico"><i class="fab fa-css3-alt"></i></div>
+        <div class="sk-name">CSS3</div>
+        <div class="sk-lvl">Expert</div>
+        <div class="sk-track"><div class="sk-fill" data-w="92"></div></div>
+        <div class="sk-pct">92%</div>
+      </div>
+      <div class="sk-card rv" style="--skill-c:#8892be">
+        <div class="sk-ico"><i class="fab fa-php"></i></div>
+        <div class="sk-name">PHP</div>
+        <div class="sk-lvl">Very Good</div>
+        <div class="sk-track"><div class="sk-fill" data-w="78"></div></div>
+        <div class="sk-pct">78%</div>
+      </div>
+      <div class="sk-card rv" style="--skill-c:#f0db4f">
+        <div class="sk-ico"><i class="fab fa-js-square"></i></div>
+        <div class="sk-name">JavaScript</div>
+        <div class="sk-lvl">Average</div>
+        <div class="sk-track"><div class="sk-fill" data-w="58"></div></div>
+        <div class="sk-pct">58%</div>
+      </div>
+      <div class="sk-card rv" style="--skill-c:#00d4ff">
+        <div class="sk-ico"><i class="fas fa-mobile-alt"></i></div>
+        <div class="sk-name">Responsive</div>
+        <div class="sk-lvl">Expert</div>
+        <div class="sk-track"><div class="sk-fill" data-w="93"></div></div>
+        <div class="sk-pct">93%</div>
+      </div>
+      <div class="sk-card rv" style="--skill-c:#a855f7">
+        <div class="sk-ico"><i class="fas fa-paint-brush"></i></div>
+        <div class="sk-name">UI Design</div>
+        <div class="sk-lvl">Very Good</div>
+        <div class="sk-track"><div class="sk-fill" data-w="82"></div></div>
+        <div class="sk-pct">82%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WORK ══════════ -->
+<section id="work">
+  <div class="sec-label rv">Portfolio</div>
+  <div class="sec-title rv">Selected <span class="g">Work</span></div>
+  <div class="filter-row rv">
+    <button class="fb on" data-f="all">All</button>
+    <button class="fb" data-f="creative">Creative</button>
+    <button class="fb" data-f="web">Web Apps</button>
+    <button class="fb" data-f="ecom">E-Commerce</button>
+  </div>
+  <div class="work-grid" id="wgrid">
+    <div class="wcard rv" data-cat="creative" style="--tc:rgba(124,58,237,.8)">
+      <div class="wcard-thumb">
+        <i class="fas fa-dragon wcard-ico"></i>
+        <div class="wcard-ov">
+          <a href="anistra.html" class="ov-btn ov-btn-p" target="_blank"><i class="fas fa-eye"></i> Live</a>
+          <a href="https://wa.me/2348033090230?text=I want a site like Your Anime Universe" target="_blank" class="ov-btn ov-btn-wa"><i class="fab fa-whatsapp"></i> Order</a>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-num">01</div>
+        <div class="wcard-title">Your Anime Universe</div>
+        <div class="wcard-desc">Cyberpunk anime streaming platform with episode library, custom animated cursor, Canvas particles, and glassmorphism cards. Zero frameworks.</div>
+        <div class="wcard-tags"><span class="wtag">HTML</span><span class="wtag">CSS</span><span class="wtag">JS</span></div>
+        <div class="wcard-actions">
+          <a href="anistra.html" class="hbtn hbtn-primary btn-sm" target="_blank" style="padding:.5rem 1rem;font-size:.68rem"><span><i class="fas fa-eye"></i> Preview</span></a>
+          <a href="https://wa.me/2348033090230" target="_blank" class="hbtn" style="padding:.5rem 1rem;font-size:.68rem;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);color:#25d366"><i class="fab fa-whatsapp"></i> Get This</a>
+        </div>
+      </div>
+    </div>
+    <div class="wcard rv" data-cat="creative" style="--tc:rgba(123,47,255,.8)">
+      <div class="wcard-thumb">
+        <i class="fas fa-meteor wcard-ico"></i>
+        <div class="wcard-ov">
+          <a href="galaxy.html" class="ov-btn ov-btn-p" target="_blank"><i class="fas fa-eye"></i> Live</a>
+          <a href="https://wa.me/2348033090230?text=I want a site like Galaxy Explorer" target="_blank" class="ov-btn ov-btn-wa"><i class="fab fa-whatsapp"></i> Order</a>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-num">02</div>
+        <div class="wcard-title">Galaxy Explorer</div>
+        <div class="wcard-desc">Immersive 3D space experience with live Canvas starfields, parallax planets, WebAudio ambient sound. Full mobile touch support.</div>
+        <div class="wcard-tags"><span class="wtag">HTML</span><span class="wtag">CSS</span><span class="wtag">JS</span><span class="wtag">WebAudio</span></div>
+        <div class="wcard-actions">
+          <a href="galaxy.html" class="hbtn hbtn-primary btn-sm" target="_blank" style="padding:.5rem 1rem;font-size:.68rem"><span><i class="fas fa-eye"></i> Preview</span></a>
+          <a href="https://wa.me/2348033090230" target="_blank" class="hbtn" style="padding:.5rem 1rem;font-size:.68rem;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);color:#25d366"><i class="fab fa-whatsapp"></i> Get This</a>
+        </div>
+      </div>
+    </div>
+    <div class="wcard rv" data-cat="web" style="--tc:rgba(0,212,255,.8)">
+      <div class="wcard-thumb">
+        <i class="fas fa-graduation-cap wcard-ico"></i>
+        <div class="wcard-ov">
+          <a href="#" class="ov-btn ov-btn-p" target="_blank"><i class="fas fa-eye"></i> Live</a>
+          <a href="https://wa.me/2348033090230?text=I want a site like School Portal" target="_blank" class="ov-btn ov-btn-wa"><i class="fab fa-whatsapp"></i> Order</a>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-num">03</div>
+        <div class="wcard-title">School Portal</div>
+        <div class="wcard-desc">Complete school management system with student dashboard, grades, timetable, and PHP admin panel.</div>
+        <div class="wcard-tags"><span class="wtag">PHP</span><span class="wtag">HTML</span><span class="wtag">CSS</span></div>
+        <div class="wcard-actions">
+          <a href="#" class="hbtn hbtn-primary btn-sm" target="_blank" style="padding:.5rem 1rem;font-size:.68rem"><span><i class="fas fa-eye"></i> Preview</span></a>
+          <a href="https://wa.me/2348033090230" target="_blank" class="hbtn" style="padding:.5rem 1rem;font-size:.68rem;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);color:#25d366"><i class="fab fa-whatsapp"></i> Get This</a>
+        </div>
+      </div>
+    </div>
+    <div class="wcard rv" data-cat="ecom" style="--tc:rgba(247,151,30,.8)">
+      <div class="wcard-thumb">
+        <i class="fas fa-shopping-bag wcard-ico"></i>
+        <div class="wcard-ov">
+          <a href="#" class="ov-btn ov-btn-p" target="_blank"><i class="fas fa-eye"></i> Live</a>
+          <a href="https://wa.me/2348033090230?text=I want a site like E-Commerce Store" target="_blank" class="ov-btn ov-btn-wa"><i class="fab fa-whatsapp"></i> Order</a>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-num">04</div>
+        <div class="wcard-title">E-Commerce Store</div>
+        <div class="wcard-desc">Full product catalog with cart, checkout, and PHP backend built for high conversion rates.</div>
+        <div class="wcard-tags"><span class="wtag">PHP</span><span class="wtag">HTML</span><span class="wtag">CSS</span><span class="wtag">JS</span></div>
+        <div class="wcard-actions">
+          <a href="#" class="hbtn hbtn-primary btn-sm" target="_blank" style="padding:.5rem 1rem;font-size:.68rem"><span><i class="fas fa-eye"></i> Preview</span></a>
+          <a href="https://wa.me/2348033090230" target="_blank" class="hbtn" style="padding:.5rem 1rem;font-size:.68rem;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);color:#25d366"><i class="fab fa-whatsapp"></i> Get This</a>
+        </div>
+      </div>
+    </div>
+    <div class="wcard rv" data-cat="web" style="--tc:rgba(67,233,123,.8)">
+      <div class="wcard-thumb">
+        <i class="fas fa-pen-nib wcard-ico"></i>
+        <div class="wcard-ov">
+          <a href="#" class="ov-btn ov-btn-p" target="_blank"><i class="fas fa-eye"></i> Live</a>
+          <a href="https://wa.me/2348033090230?text=I want a site like Blog Platform" target="_blank" class="ov-btn ov-btn-wa"><i class="fab fa-whatsapp"></i> Order</a>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-num">05</div>
+        <div class="wcard-title">Blog Platform</div>
+        <div class="wcard-desc">Editorial blog with post management, categories, comment system, and PHP CMS.</div>
+        <div class="wcard-tags"><span class="wtag">PHP</span><span class="wtag">HTML</span><span class="wtag">CSS</span></div>
+        <div class="wcard-actions">
+          <a href="#" class="hbtn hbtn-primary btn-sm" target="_blank" style="padding:.5rem 1rem;font-size:.68rem"><span><i class="fas fa-eye"></i> Preview</span></a>
+          <a href="https://wa.me/2348033090230" target="_blank" class="hbtn" style="padding:.5rem 1rem;font-size:.68rem;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);color:#25d366"><i class="fab fa-whatsapp"></i> Get This</a>
+        </div>
+      </div>
+    </div>
+    <div class="wcard rv" data-cat="creative" style="--tc:rgba(244,114,182,.8)">
+      <div class="wcard-thumb">
+        <i class="fas fa-briefcase wcard-ico"></i>
+        <div class="wcard-ov">
+          <a href="#" class="ov-btn ov-btn-p" target="_blank"><i class="fas fa-eye"></i> Live</a>
+          <a href="https://wa.me/2348033090230?text=I want a site like Portfolio Template" target="_blank" class="ov-btn ov-btn-wa"><i class="fab fa-whatsapp"></i> Order</a>
+        </div>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-num">06</div>
+        <div class="wcard-title">Portfolio Template</div>
+        <div class="wcard-desc">Premium portfolio template with glassmorphism, scroll animations, and zero dependencies.</div>
+        <div class="wcard-tags"><span class="wtag">HTML</span><span class="wtag">CSS</span><span class="wtag">JS</span></div>
+        <div class="wcard-actions">
+          <a href="#" class="hbtn hbtn-primary btn-sm" target="_blank" style="padding:.5rem 1rem;font-size:.68rem"><span><i class="fas fa-eye"></i> Preview</span></a>
+          <a href="https://wa.me/2348033090230" target="_blank" class="hbtn" style="padding:.5rem 1rem;font-size:.68rem;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);color:#25d366"><i class="fab fa-whatsapp"></i> Get This</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="rv">
+      <div class="sec-label">Get In Touch</div>
+      <div class="c-title">Let's Build<br><span class="g">Something</span><br>Amazing.</div>
+      <p class="c-sub">Have a project in mind? Drop a message or hit me up directly on WhatsApp — I reply fast.</p>
+      <div class="c-items">
+        <a href="https://wa.me/2348033090230" class="ci" target="_blank"><i class="fab fa-whatsapp"></i> +234 803 309 0230</a>
+        <a href="mailto:goldensta7@gmail.com" class="ci"><i class="fas fa-envelope"></i> goldensta7@gmail.com</a>
+        <div class="ci"><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</div>
+      </div>
+    </div>
+    <div class="c-form rv">
+      <div class="fg"><label>Your Name</label><input type="text" id="fn" placeholder="John Doe"/></div>
+      <div class="fg"><label>Email Address</label><input type="email" id="fe" placeholder="john@example.com"/></div>
+      <div class="fg"><label>Your Message</label><textarea id="fm" rows="5" placeholder="Tell me about your project..."></textarea></div>
+      <button class="sbtn" onclick="sendWA()"><i class="fab fa-whatsapp"></i> &nbsp;Send via WhatsApp</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="foot-logo">Ivan Joseph.</div>
+  <span class="foot-copy">&copy; 2025 Ivan Olajide Joseph · Lagos, Nigeria</span>
+  <div class="foot-links">
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://wa.me/2348033090230"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</footer>
+
+<a href="https://wa.me/2348033090230" target="_blank" class="fwa">
+  <i class="fab fa-whatsapp"></i>
+  <span class="fwa-tip">Chat on WhatsApp</span>
+</a>
+
+<script>
+// ── LOADER ──
+(function(){
+  const ld=document.getElementById('loader');
+  const lp=document.getElementById('ldp');
+  let n=0;
+  const iv=setInterval(()=>{
+    n=Math.min(99,n+Math.random()*20);
+    if(lp) lp.textContent=Math.floor(n)+'%';
+  },80);
+  function dismiss(){clearInterval(iv);if(lp)lp.textContent='100%';setTimeout(()=>ld.classList.add('out'),300);}
+  setTimeout(dismiss,2000);
+  window.addEventListener('load',()=>setTimeout(dismiss,400));
+})();
+
+// ── CURSOR ──
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  // Arrow tip at exact cursor point (no offset)
+  cd.style.left=(mx-1)+'px';
+  cd.style.top=(my-1)+'px';
+});
+// Smooth dot trails slightly behind
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(ar);})();
+document.querySelectorAll('a,button,.wcard,.sk-card,.acard,.ci').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+});
+
+// ── SCROLL PROGRESS ──
+const sp=document.getElementById('sp');
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.documentElement.scrollHeight-innerHeight)*100;
+  sp.style.width=pct+'%';
+  updateActive();
+  updateDots();
+});
+
+// ── NAV ACTIVE ──
+function updateActive(){
+  document.querySelectorAll('section[id]').forEach(s=>{
+    const link=document.querySelector(`.sb-link[href="#${s.id}"]`);
+    if(!link) return;
+    const top=s.offsetTop-200;
+    link.classList.toggle('active',window.scrollY>=top&&window.scrollY<top+s.offsetHeight);
+  });
+}
+
+// ── DOT NAV ──
+function updateDots(){
+  const secs=['home','about','work','skills','contact'];
+  secs.forEach((id,i)=>{
+    const s=document.getElementById(id);
+    const d=document.querySelectorAll('.dot')[i];
+    if(!s||!d) return;
+    const top=s.offsetTop-200;
+    d.classList.toggle('on',window.scrollY>=top&&window.scrollY<top+s.offsetHeight);
+  });
+}
+document.querySelectorAll('.dot').forEach(d=>{
+  d.addEventListener('click',()=>{
+    document.getElementById(d.dataset.sec)?.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+
+// ── CANVAS STARS ──
+(function(){
+  const c=document.getElementById('starCanvas');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;initStars();}
+  function initStars(){
+    stars=Array.from({length:150},()=>({
+      x:Math.random()*W,y:Math.random()*H,
+      r:Math.random()*.8+.2,a:Math.random(),
+      da:(Math.random()-.5)*.006,
+      vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,
+      col:Math.random()>.6?'rgba(0,212,255,':'rgba(168,85,247,'
+    }));
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.x=(s.x+s.vx+W)%W;s.y=(s.y+s.vy+H)%H;
+      s.a=Math.max(.1,Math.min(.9,s.a+s.da));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=s.col+s.a+')';ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
+// ── REVEAL ──
+const rvObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const sibs=[...e.target.parentElement.querySelectorAll('.rv')];
+      const idx=sibs.indexOf(e.target);
+      setTimeout(()=>e.target.classList.add('vis'),idx*80);
+      rvObs.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(40px)';
+  el.style.transition='opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)';
+  rvObs.observe(el);
+});
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.rv').forEach(el=>{
+    const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.style.opacity='1';en.target.style.transform='none';}});});
+    obs.observe(el);
+  });
+});
+
+// ── SKILL BARS ──
+const sbObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.style.width=e.target.dataset.w+'%',200);sbObs.unobserve(e.target);}});
+},{threshold:.3});
+document.querySelectorAll('.sk-fill').forEach(b=>sbObs.observe(b));
+
+// ── COUNTERS ──
+const ctObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target,t=+el.dataset.t;
+      let c=0;const st=Math.max(1,Math.ceil(t/50));
+      const iv=setInterval(()=>{c=Math.min(c+st,t);el.textContent=c;if(c>=t)clearInterval(iv);},25);
+      ctObs.unobserve(el);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-t]').forEach(el=>ctObs.observe(el));
+
+// ── FILTER ──
+document.querySelectorAll('.fb').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const f=btn.dataset.f;
+    document.querySelectorAll('.wcard').forEach(c=>{
+      c.style.display=(f==='all'||c.dataset.cat===f)?'block':'none';
+    });
+  });
+});
+
+// ── CV DOWNLOAD ──
+const cvData='UEsDBAoAAAAAAPpCvFwAAAAAAAAAAAAAAAAFAAAAd29yZC9QSwMECgAAAAAA+kK8XAAAAAAAAAAAAAAAAAsAAAB3b3JkL19yZWxzL1BLAwQKAAAACAD6QrxcKD3GWKgBAAArBwAAHAAAAHdvcmQvX3JlbHMvZG9jdW1lbnQueG1sLnJlbHPFlU1P4zAQhv9K5HvjfEAbEAEO7Eoc9rIqZ+QkE8dt/FF7khJ+Pa6gEFZstJWyu0e/Hr/zzMgeX908yTbowTqhVU7iMCIBqFJXQvGcPKy/LzJyc331E1qGPsI1wrjAH1EuJw2iuaTUlQ1I5kJtQPmdWlvJ0C8tp4aVW8aBJlG0pHbsQT57BvdVTux9FZNgPRj4E29d16KEO112EhR+kYI6HFpw3pFZDpiT13XofQj9On0yZ3rVyQKs7+MHwbs0BZHOCVFrjUrjuA3v0hTE2ZwQoKpfGI7KFML5rHcBEH3fx7fhTZlCWM6JUGp52BohHJUpBNwWj3EvzGYls4TFO4u1k3NiNd7JtkJtP7gkEy3qS67bCpRDtrrlByn0vMegH7ry+b89IVjFfgtv++x52GWD2FQ81mDPs1Xt/jL8wdZ53z0LpZ886VkWpWl0ESVpdBo8xEWEfG+KLjHLJRM7P8n4P4LnApuuODScip6pjXZgGsqUcGjZaWXoxWIrn6tCb7qIPfb7hg2m/69llODHMIoT64hn/RtqrXDNihbGc/FNOj5H+unXu34BUEsDBAoAAAAIAPpCvFxFYgC6dQ4AAAWUAAARAAAAd29yZC9kb2N1bWVudC54bWztHctyG7nxnL9AqSpV3lpKw4dE0aq1NzRF2fLKEiPK9ua0Bc6AHFiYwRjAkKJPueaQSzbHVO0P5JJT7vmU/YL9hDSAGQ5JUeJLlrTUSFUczgM9jUa/ATS/+/4qYKhPhKQ8fLFV2iluIRK63KNh78XW+4uj7doWkgqHHmY8JC+2hkRuff/yu8GBx904IKFCgXtw3Au5wB0G9welXTQo7aFBVNrdQgA8lAeDyH2x5SsVHTiOdH0SYLkTUFdwybtqx+WBw7td6hJnwIXnlIulovkWCe4SKQGTBg77WKbgguvQeERCuNnlIsAKTkXPCbC4jKNtgB5hRTuUUTUE2MVqCoa/2IpFeJCA2B4hpJscWISSQ9pCLPJe2+QwoY55oyMIAxx4KH0aZd1YFRrc9FMg/ds60Q9YNgSl3fXG4FDgARwygIug79lGAbOY3w6xVFxgRDSIUYtFUJh8Z4pJgGmYvXgl0owRt7S3HIDyNICot97gvBY8jjJodD1ox+HlCJaW+SVgJYM83jW5HjJtH0cjCXSvFgOW8J2Gt+u4PhaKXGUwSksD2XOeO7XrgMorAIIOlkvXQVWWBlV1NFbXAC3Iy1OAAKtrkBZk6mlIMzpXXQ1S+Tqk/dUgVa5Dqq0G6Ro7gSK5XAEUzWQMBxVvaQj7TsA9wiqZMixVXbKgeKSyVkuE1XGz/mg4dEF8UjjVERw6js9qyIwBkJ7y/KWglFPd7Oi2WGEfS38c4nLqDOQ1BTcMgEba8elwb6iPkfloCX2QEXZhYNDgAHcVAT+hCn4UPErAEsEbi1vOy++c0dP2I/l+xEMldUPpUtDbdUEx021dOXZCsFR1SfHYJb8eytHzjkHMfjakObqccQHP9TEDBOr63z4mv6RX98vplYacvOaM8FOadqZ/0I9IEElEn2y9PP5QP0VnJ/W3x4dNpB9XttHDdK/66tVRsXiH3Xt71m623kz0y0lH/LZhLz/EsKd962ImyVZKpRlXJ2i2Z/4SCo36YW6VytdoWZ5By/JitDw6Pzu9aJ4eoo/NV+iw+aF5ctZqns+lbfTKE1bclOJB+k7tETBiCKU7Mxp6pFHTmJtvFoVSSv4E0rXRunmwFhrs2vz2qsOSQ0KiDvsIbdQwghbeFdYAwIt9vl9NKA4PvAKFA/GYOeNR2vEQoq+xbh+Zv7TbSWNGumqZ5ydJu0gLQXv+Uq+gwK0eeXPj8OFY8bTJ7niTD4s3cSbJ5kzS+7Wgnv7ag2ODM0vwcjlVF5OXd2dfrs6+vFctZu9P36Psi137maDhzhr1DAnlbtCgO9P9cd9hkXVsmgqT3bjh7gjpG+6nKE7frmUYGSScbEyieSq5TXqcoPfHqBnwTzTVzdevZkr6+r1EW0/dmNKtpdp13WqvzdWtv/3y89/vyfzebDzuoiMnuMdlAZ3SHoFXzjAOTiZTC0jWbi5Z8ySrlovWPNH6z0aI1rflyi6qFSuoUnyOiuVKcW3pqubSlUvXekz567/+Ni1cPpBAMBpe6tdTqbgYah8eiQOdjhDHnrrs/FTq0+jTflAr49Jnoboy2LovuZwdY95MgsFBfKMLm8GaS6geZx4JpcL7f+oFmDKdpJgW4BHlVhPnvWouzl9ZnDdcmn/75R//XlqcRb/2Zfi5NqSfvF6JE7FX2+/KTRfnAd4JiAMWGQwy2ONZ5vgmaXZsbOmMsgq3JidKu2tmN0qTuaxybQLEg2f5JjNWtSVGcu4Ytc7Pjprt9vHZaf0E6ZPjk+bXSVft3mO26paM9GL88BAp7QU84yxXOZaZXEwYW1jqZQ9YEYRDD3lEgYHd5oKSUBEPHQnoB4EbH0kHHZI+YRwkE3WwhJs0RJMxawENqPJR+Vs0JFhIxLvIB6hym4eIXEFDgOoS1Ikp04srEGARcehvnxSQnsoRYcFg0acyxowNkV65QBgzg0A6kioid1BL8C51NYIagzcX7072CqjRblds49abVoJHT3A9VYTe4j5uu4JGCslLyhjAOEYyIi7QmEqioSiBQ6kXKMDjHpG0F8K7AdcIBpGGiqOIXhG2DV3oElcVkA9GzpzpWXbdJ0BvrIsSKR8rFAkKlFT6HTHQe+yBHdSIhYAuQCc9woACQr8axiWgcYC6ghBm4EaCf4I3Ai1DdKQfE6aTepIfAVoeFXAXucyQA1iF4Q4XdqEFGnDBvAH1yM7yWfynq/oumo03p8cN0HvtH45PTtpPQu0tmqSv5En6+03SF2em3fcra6bdi3n6AgZlvbz77pyAp1ReI+T5Ojq0VNf/d5qzDnsx7hG5bkJtv5JH4HM5cjQpvTJPPgxHft3krvEA0bOmdq7UNwj977/IuINTl8AvRM8+EDFErzn3kotjruGzOnhXwMrf3MzKy4Wfe7nZzc1ubnZzs3v3Zrethjoozo1ubnQfyOiej1I36NDmS4w9PWLkqsOvRkYYaSVpz14zLGXAReRTGdhL9ZAGNleR29zc5uY2N7e5j9jmXnDO8jA3t7gPZXE/1t+1rNn80EYN7pHErFKVmF7aCzB69gpL6qZRsC94oA10fw7z5kY2N7K5kc2N7IMb2XY6KxvkpjY3tQ9lag+xuNRrxMYj2xMcmjULLT3bkWSUuVBdzihHbb0yIYtpifMaB/rhC58Et82NLLmeae31K092Ur91fva22bh4GpP5t7avTLSvPjgHzN6Wu8aKJhBAqQRGv/71n1YYUVsJYuWxxbDSS3Ym2OCr9fpOuoPuaQMGtZ+zhqhm/u5QGu2MHWhLM00Hx7FpOH3VlLpB9dbx8uuWblny+aDG6PkMYj1fiFhHMWPbXYJVLIiHsOHoKOFju87NHXaIiOLwEnnWcBUQiajUISKjHYHFsIDcWGp9hk3GFeC4sZBcFFCEhaIuI8i1RO9g97IneBx6BTTAyvXBF1OoG4euztNiXUHILrPrTaRzXSw8s1oP/Bcg6w56FVOmEHyngrChwZPHAEjggAy4uJQrrEm7ZbPxAmutSalTVL1B1InLUbWK6Wcw5L1NX2ut6zzIA8fpAf3jjqnuQPs4/MQliXwHW1U5PRLXVl8/dZPSIIxIRa1NeY0Zvhqi5lUEryQiNyW/A1MC3z6STj32wFfPzYqtXhIEuuJdn6DKITJ3x5doW3ujSaDXJqdklAqLLiXM02YDM5CDQmZRwCaFRMlCRmkcdMyyZKnNCegZ97IwZTYkMWZFWpPSBUuHAt6hYI4Uj10fyTiKIMi6d1vBt7cvgy9eh3+Ki/in/sDHw6j/tG2Fm+jA3FjMIWPTi3ViADNjLdquzzlD73AI7oapFdkeSkXyCORhzYZeDAhG4Zr1eDds//kkNw/g8oAvz4giSFoGDjIGjix3m9BDqtjT1zws/Q6HIAA0vMAQeBh1DzQqIAUBi9KFUcdgaH0fglVwzRlEHbapNgJgEiDQ0as1tyM+ICbm8SB4B5MTEna3liBXWCbn7vPoR6Osmtsw7OAWuDpnAt3NldSjVFKZi5trKpsf0dvkvFhvhMOgmngvUU7A2JHuvYsFqBzXJ+6lSUIwPiggM4WCEvdvtHXQJEBI6O2gBiM4RO9/RFi4PlXgqWq9ZDcHglICAppdgHqfYFI7GgmsNyjev4p6unn9j2fnP6Dmj63m+XHztPH0tiiDYZXJMe2MmajTQCIusxUWTvbsHJ3waC3cGuUXR9tpR/uZR3uZf0c27g+bZ+LKxXIFXI+fUUtfClcwaI+syuzs2H2NQU82fTuoTVh3uwleOR8S73444euOvZ0vPycBV2S+4tZbHkj6hhOw2i0sMMQakW8RCOPAPklZn400yejesTeie4LcqMEcj7+yCU7SYeq22CIPVvd5qFL8Np0ZSusrGMfG1hOQCOuy0DIr76B8gt7/YJ0l870939vJR27NkTPVIXSCdbwExVjtjMQnldoTlUBeW1UC+wR7ugKHB0dGQxhZ4xSXisU/pvUiJFZUdrHJweYD+ZUHcrS0zVZOMRO5Ts+uS1B6nZCHjAAWTILFritKhbKQpmFs7iXJlxP9oyA2XE8nhBeIPvJhXDcxFsQhde2ch63Ooo89eAJEEIJGoaUv1IPschHpaix6vt1KXJcQT0eYiHSTGjbwsPIFjyGSJNj1Qa77VC4kj9fDwGIeR67oizQP3zfqF8dnp3kEucERZGmGF15aTHkTMK4eFsN0QqdBhKJdowbQs4/1ZsM5bTbOJmsHbESE9gcdoq2gix5pqbSvWZ97qdTrRgoJRKgXONYLxacTLcFKwX1l45joLNS+uJlt0UXe9D6uBg6iAvpYsZoFOOwvPL6IO6SA3h2e2sJ73J21iPwxiuC9Jo/G6gxmsQ+Smg1tYTztU6vYs/6YIJhtm5p4Y36bDn7cvEDeMmRvnx1d5LXx8h+wefC9jLvp3qQ7uOwMVtz5OAK70bvMpK+j/i5l0PpoD/4rWykwE/KmJLh1L1p1srdLFxivTvVl2R8MSHTAJ3eEui5yKx5ab9/5Jsq60nZQT0grDv6Xrug7Q1E7gyU2U+ZsnrP5Y2PzI0AIncCohFOzuDl/5/y9AfzdsCnjLOEMGj3n85zPN43PL/SOxmyB/M0s7owc89w9z/n9d8vvLcE7jASozVn/Dop45iyes/hjY/GGIOCu9Kka5tydc/emcfc5YRR3KMvZO2fvDWTvC4IDXaJjriNuc+bT9MnLVt2hpmkeNc/1xpanMdN2a/vHNZl95+sK631MmdkmqzeSkc8xkavUPSgvuQZw09jmQbTzIsscqjM4o7oQZxz3cYjOGP5EPYLemmoMaUnC8QVJ9tqs30q2dxb5DXTAj7gq4Yxe+4s1jKXS82LV9FzjXKvU9Hf7E5GAJxdKYKps96IemE5kLLhej2o3NhqDm51aVsvOtT3PzvSydT3u+0Xzmi7nauy0F6uEqZLXncbBBdhxc+Zx1/zcAICkIWlR5QLC2erFtGuORsEbmi/QJNZJp5f/B1BLAwQKAAAACAD6QrxcI/8pKBEDAAAxEQAADwAAAHdvcmQvc3R5bGVzLnhtbOVXXW+bMBT9K4j3lkAgbaPSKksbtdK0RV2rPTvGBKtgM9uUZr9+NhhCQ2jShnbS9hR87+X4nPuBnfPL5yQ2nhDjmBLftI8HpoEIpAEmS998uJ8dnZoGF4AEIKYE+eYKcfPy4jwfc7GKETcSOL5dEsrAIpbe3HaN3PZMQ6ISPk6gb0ZCpGPL4jBCCeDHNEVEOkPKEiDkki2tBLDHLD2CNEmBwAscY7GynMFgVMGwfVBoGGKIrijMEkRE8b7FUCwRKeERTnmFlu+DllMWpIxCxLnMRBKXeAnApIax3RZQgiGjnIbiWIrRjAoo+bo9KJ6SeA3gvQ3AqQBU+gMKr1AIslhwtWRzppd6VfzMKBHcyMeAQ4x9c8IwkNvnY8gbCwS4mHAMGqZoQngdbxXV/i3NTyD2TWdQWab8pc3SG1ubdNJ6VUZtcC86SUKJVSpbKAUMLBlII0WkcN0GvnmPRYwK4QQkqNq3tBZ0FoCj4DupPN9ULTV3gp7FNvuvWVFwq5GxtUxv1JZZ2hoyC3r7SrhBQE2V3VKhHYbdpxJIY8rq+lyfuF+8zUoOnbbE0nagRKdTovPJEp0tVXT6qOKwU+LwwyTaM/fq5LQl0d0i0e1Botsp0e1TIi4WeMqtV2p6oBSvU4r3CQ15IPlRJ/nRJ7Tae8n/EIySZYu6NvfIe1FiFf3zXrJfMRfz2rPJWXmNtXsX9zXHbhowknBQIPay4NLHYkwe2xWvPdt214dpTVEd+2VghucMUyYvVFXs2Zn2kAgH6GeEyIPE6myEgTcaTvXBlFVGdSUqz93dCd+udEapIFSgOxQiJu+b7aM91BEGq0P6ks5Rgm9wECCyIxPyWiwmMV7Wu/FMloFDhlNxyGxU6u9ll3cLF8q7q9lUT1T2JuxUpv3wPKT6VpQCqL438iIZykrKrlBy5NZIHTX14i5TfwFAJqhOjn69dbfa6wr5rn6qpW9mtQowVISxzs7e7dSV6N6a7SPTc02C16cNlQH/4rBp7VtnrZL95lFrgP5nk7apfDOl2t/LnDVL93fHrHriF38AUEsDBAoAAAAAAPpCvFwAAAAAAAAAAAAAAAAJAAAAZG9jUHJvcHMvUEsDBAoAAAAIAPpCvFxU8AmTNwEAAIMCAAARAAAAZG9jUHJvcHMvY29yZS54bWylkl1rwjAUhv9KyX2bfqAroY2wDa8mDKZs7C4kRw1r0pBkVv/90qpV0btdJu+Th/ectprtVRPtwDrZ6hplSYoi0LwVUm9qtFrO4xJFzjMtWNNqqNEBHJrRihvCWwvvtjVgvQQXBY92hJsabb03BGPHt6CYSwKhQ7hurWI+HO0GG8Z/2AZwnqZTrMAzwTzDvTA2oxGdlIKPSvNrm0EgOIYGFGjvcJZk+MJ6sMo9fDAkV6SS/mDgIXoOR3rv5Ah2XZd0xYCG/hn+Wrx9DKPGUveb4oBoJTjhFphvLV3pWDMFosJXl/0CG+b8Imx6LUE8H664+6zHLexk/5VoNhDjsToNfXSDiEJZchztnHwWL6/LOaJ5mk/jdBLn5TItSV6QSZGUT8V3X+3GcZGqU4l/Wc8SOjS//XHoH1BLAwQKAAAACAD6QrxcFML9eowCAAAgDgAAEgAAAHdvcmQvbnVtYmVyaW5nLnhtbNVXy47TMBT9lcj71kmaPhRNZgSMBhXxkigf4CZua9Uv2U4y3bFnwQKJ2fJtfAl22qQPYGhTRior1773nnN87XvdXN3cM+oVWGkieAKCrg88zFORET5PwMfJXWcEPG0QzxAVHCdghTW4ub4qY56zKVbWzWNpPJ5zodCUWocyiLwy6HulDCLgWXSu41KmCVgYI2MIdbrADOkuI6kSWsxMNxUMitmMpBiWQmUw9AO/+iWVSLHWluMF4gXSNRz7FU1IzK1xJhRDxk7VHDKklrnsWHSJDJkSSszKYvuDGkYkIFc83kB0GkEuJF4L2gx1hDqGdx1yK9KcYW4qRqgwtRoE1wsit9toi2aNixqkeGwTBaPbIwii887gVqHSDlvAY+Rn6yBG18ofRwz8I07EQTQRx0jY56yVMET4lrhVanaSG/RPAwgPAeT8vMN5qUQut2jkPLQxXzZYruhPwNoc8u7W9HliPiyQxMC1HDTVRqHUvM2ZtzcbZ7Z1Add2YoVtt1Jucd2dns0MVs8VRssE+BUKy6khr3GB6WQlsQUqELUKV1NFsjfORp0NQOdLC2odiB1cdEVgbBnaWi6wo3Q+FV8NE6zjbHO8Y83iNKcUmwZxgu8b04+HL836q7RepXi2cZfvlRsIz6zNLSdgGDol8QLxedWkewPf+cKNM6ywDsUHTyP+86nigyhqoT58EvXfvp+qPgwGLdT3LuTihKNRC/XRhdwcK7aF+v6F3Jyo16ZqBxdyc/p+m6odXor6YZuqHV2I+kF0XNXCvRfxr89l+H8+l5++nlx5B1c3HB2ZPl6ljdf/Lg4yOs4O9mBR3tnvKJsVvJODZsc7tm0U3Aur5vw35OGfycN/Tw53vu2ufwJQSwMECgAAAAAA+kK8XAAAAAAAAAAAAAAAAAYAAABfcmVscy9QSwMECgAAAAgA+kK8XB+jkpbmAAAAzgIAAAsAAABfcmVscy8ucmVsc62Sz0oDMRCHXyXMvTvbVkSkaS9S6E2kPkBIZneDzR8mU61vbyiKVuraQ4+Z/ObLN0MWq0PYqVfi4lPUMG1aUBRtcj72Gp6368kdrJaLJ9oZqYky+FxUbYlFwyCS7xGLHSiY0qRMsd50iYOReuQes7Evpiecte0t8k8GnDLVxmngjZuC2r5nuoSdus5bekh2HyjKmSd+JSrZcE+i4S2xQ/dZbioW8LzN7HKbvyfFQGKcEYM2MU0y124WT+VbqLo81nI5JsaE5tdcDx2EoiM3rmRyHjO6uaaR3RdJ4Z8VHTNfSnjyMZcfUEsDBAoAAAAIAPpCvFygjo6lmgEAADgIAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbLVWy07DMBD8lShX1LhwQAi15cDjCBzgA1x7kxpir2VvCvw96/QhBZpSoLllPTM7E+9GyuTq3dbZEkI06Kb5aTHOM3AKtXHVNH9+uhtd5FezydOHh5gx1cVpviDyl0JEtQArY4EeHCMlBiuJy1AJL9WrrECcjcfnQqEjcDSi1COfTW6glE1N2fXqPLWe5sYmvndVnt2+8/EqTqrFXsWLh66kPfi15ifJ3PqOItX7FZUpO4pU71fEZXXC99hR8VmvSnpfGyWJiWLp9Jc5jNYzKALULScujI/fDBiNBzl8Fab6j8mwLI0CjaqxLClwXjaR2aDvuEnHBDVRe20PvKHBaPiPzxsG7QMqiJGX29bFFrHSuNXNPMpA99Jyb5HoYktZv+4gOSJ91BB3B1hh/7LfLILCACM29hDI7PDjgI+MRpGIx3xh1URCe5h1Sz2mOaRt0qAPsufWg07aNXYOgZ93D3sLDxqiRCSH1LdxW3jQEDyTPRk26LCfHRDxU9+Ht0YHjaDQJqAnwgYdeBu4kZzX0LcNa3gTQrS/ArNPUEsDBAoAAAAIAPpCvFxYedsikgAAAOQAAAATAAAAZG9jUHJvcHMvY3VzdG9tLnhtbJ3OQQrCMBCF4auU2dtUFyKlaTfi2kV1H9JpG2hmQiYt9vZGBA/g8vHDx2u6l1+KDaM4Jg3HsoICyfLgaNLw6G+HCxSSDA1mYUINOwp0bXOPHDAmh1JkgETDnFKolRI7ozdS5ky5jBy9SXnGSfE4OotXtqtHSupUVWdlV0nsD+HHwdert/QvObD9vJNnv4fsqfYNUEsDBAoAAAAIAPpCvFzi/J3akwAAAOYAAAAQAAAAZG9jUHJvcHMvYXBwLnhtbJ3OQQrCMBCF4auE7G2qC5HStBtx7aK6D8m0DTQzIRNLe3sjggdw+fjh47X9FhaxQmJPqOWxqqUAtOQ8Tlo+htvhIgVng84shKDlDiz7rr0nipCyBxYFQNZyzjk2SrGdIRiuSsZSRkrB5DLTpGgcvYUr2VcAzOpU12cFWwZ04A7xB8qv2Kz5X9SR/fzj57DH4qnuDVBLAwQKAAAACAD6QrxcnInJkc4BAACtBgAAEgAAAHdvcmQvZm9vdG5vdGVzLnhtbNWUzU7jMBDHXyXyvXVSAVpFTTmAQNwQ3X0A4ziNhe2xbCehb7+TxE26LKoKPXGJv2Z+85+Z2Ovbd62SVjgvwRQkW6YkEYZDKc2uIH9+Pyx+kcQHZkqmwIiC7IUnt5t1l1cAwUAQPkGC8XlneUHqEGxOqee10MwvteQOPFRhyUFTqCrJBe3AlXSVZukwsw648B7D3THTMk8iTv9PAysMHlbgNAu4dDuqmXtr7ALplgX5KpUMe2SnNwcMFKRxJo+IxSSod8lHQXE4eLhz4o4u98AbLUwYIlInFGoA42tp5zS+S8PD+gBpTyXRakWmFmRXl/Xg3rEOhxl4jvxydNJqVH6amKVndKRHTB7nSPg35kGJZtLMgb9VmqPiZtdfA6w+AuzusuY8OmjsTJOX0Z7M28TqL/YXWLHJx6n5y8Rsa2bxBmqeP+0MOPaqUBG2LMGqJ/1vTY6fnKTLw96ihReWORbAEdySZUEW2WBoh8+z6wdvGccIaMCqIPB2p72xkn3Oq6tp8dL0IVkTgNDNmk7u4yfOt2Gv+ugtUwV5iGpeRCUcvpkiOkbjaj6O+xNukj0d0EEznb0+TZeDCdI0wyuz/Zh6+hMy/zSDU1U4WvjNX1BLAwQKAAAACAD6Qrxc0nf8t20AAAB7AAAAHQAAAHdvcmQvX3JlbHMvZm9vdG5vdGVzLnhtbC5yZWxzTYxBDgIhDEWvQrp3ii6MMcPMbg5g9AANViAOhVBiPL4sXf689/68fvNuPtw0FXFwnCwYFl+eSYKDx307XGBd5hvv1IehMVU1IxF1EHuvV0T1kTPpVCrLIK/SMvUxW8BK/k2B8WTtGdv/B+DyA1BLAwQKAAAACAD6QrxcP0qOjcEBAACSBgAAEQAAAHdvcmQvZW5kbm90ZXMueG1szZTbbuMgEIZfxeI+wY661cqK04seVr2rmt0HoBjHqMAgwPbm7Xd8CM62VZQ2N70xp5lv/pkxrG/+apW0wnkJpiDZMiWJMBxKaXYF+fP7YfGT3GzWXS5MaSAIn6C98XlneUHqEGxOqee10MwvteQOPFRhyUFTqCrJBe3AlXSVZukwsw648B7ht8y0zJMJp9/TwAqDhxU4zQIu3Y5q5l4bu0C6ZUG+SCXDHtnp9QEDBWmcySfEIgrqXfJR0DQcPNw5cUeXO+CNFiYMEakTCjWA8bW0cxpfpeFhfYC0p5JotSKxBdnVZT24c6zDYQaeI78cnbQalZ8mZukZHekR0eMcCf/HPCjRTJo58JdKc1Tc7MfnAKu3ALu7rDm/HDR2psnLaI/mNbKM+BRravJxav4yMduaWbyBmuePOwOOvShUhC1LsOpJ/1uToxcn6fKwt2jghWWOBXAEt2RZkEU22Nnh8+T6wVvGMQAasCoIvNxpb6xkn/LqKi6emz4iawIQulnT6D5+pvk27FUfvWWqIPejmGdRCYfvo5j8JlsRT6ftCIui4wEdFNPo9FGqHEyQphkemO3btNPvn/WH+k9UYJ77zT9QSwMECgAAAAgA+kK8XNJ3/LdtAAAAewAAABwAAAB3b3JkL19yZWxzL2VuZG5vdGVzLnhtbC5yZWxzTYxBDgIhDEWvQrp3ii6MMcPMbg5g9AANViAOhVBiPL4sXf689/68fvNuPtw0FXFwnCwYFl+eSYKDx307XGBd5hvv1IehMVU1IxF1EHuvV0T1kTPpVCrLIK/SMvUxW8BK/k2B8WTtGdv/B+DyA1BLAwQKAAAACAD6QrxcTZ/KyqEBAABzBQAAEQAAAHdvcmQvc2V0dGluZ3MueG1spZTdbtswDIVfxdB9IrtYi8GoW3Qr1vVi2EW3B2Al2RYiUYIk28vbj47juD9AkTRXkkHxO0ekxevbf9ZkvQpRO6xYsc5ZplA4qbGp2N8/P1ZfWRYToATjUFVsqyK7vbkeyqhSokMxIwDGcvCiYm1KvuQ8ilZZiGurRXDR1WktnOWurrVQfHBB8ou8yHc7H5xQMRLoO2APke1x9j3NeYUUrF2wkOgzNNxC2HR+RXQPST9ro9OW2PnVjHEV6wKWe8TqYGhMKSdD+2XOCMfoTin3TnRWYdop8qAMeXAYW+2Xa3yWRsF2hvQfXaK3hh1aUHw5rwf3AQZaFuAx9uWUZM3k/GNikR/RkRFxyDjGwmvN2YkFjYvwp0rzorjF5WmAi7cA35zXnIfgOr/Q9Hm0R9wcWOO7PoG1b/LLq8XzzDy14OkFWlE+NugCPBtyRC3LqOrZ+FuzceJIHb2B7TcQm4ZqgXKXxseQ6hXeofwt5U8FkqZZNpQ9mIrVYKJiuzPTlFh2T9MAm08Wl4y2CJakXw2UX06qMdSFE0o+SvJFky/z8uY/UEsDBAoAAAAIAPpCvFyLhjnExQEAAMYIAAARAAAAd29yZC9jb21tZW50cy54bWyl1N1y4iAYBuBbcThXklhTN9O0J53t9HjbC6CAwjT8DKDRu19SJUmXnU6CR+ok35OX18DD00k0iyM1litZg3yVgQWVWBEu9zV4f/u93IKFdUgS1ChJa3CmFjw9PrQVVkJQ6ezCA9JW+FQD5pyuILSYUYHsSnBslFU7t/L3QrXbcUwhMaj1Niyy/A5ihoyjJ9Ab+WxkA3/BbQwVCVCewSKPqfVsqoRdqgi6S4J8qkjapEn/WVyZJhWxdJ8mrWNpmyZFr5PAEaQ0lf7iThmBnP9p9lAg83nQSw9r5PgHb7g7ezMrA4O4/ExI5Kd6QazJbOEeCkVosyZBUTU4GFld55f9fBe9usxfP8KEmbL+y8izwoduO3+tHBra+C6UtIxr29eZqvmLLCDHnxZxFE24r9X5xO3SKkO6vrKvb9ooTK31HT5fqhzAKfGv/YvmkvxnMc8m/CMd0U9MifD9mSGJ8G/h8OCkakbl5hMPkAAUEVBiOvHAD8b2akA87NDO4RO3RnDK3uFk5KSFGQGWOMJmKUXoFXazyCGGLBuLdF6oTc+dxagjvb9tI7wYddCDxm/TXodjrZXzFpiV/7au7W1h/jCkKYCPfwFQSwMECgAAAAgA+kK8XNJ3/LdtAAAAewAAABwAAAB3b3JkL19yZWxzL2NvbW1lbnRzLnhtbC5yZWxzTYxBDgIhDEWvQrp3ii6MMcPMbg5g9AANViAOhVBiPL4sXf689/68fvNuPtw0FXFwnCwYFl+eSYKDx307XGBd5hvv1IehMVU1IxF1EHuvV0T1kTPpVCrLIK/SMvUxW8BK/k2B8WTtGdv/B+DyA1BLAwQKAAAACAD6QrxcY+1e1h0BAABDAwAAEgAAAHdvcmQvZm9udFRhYmxlLnhtbJ3R3W7CIBQH8Fch3Cu1mY1prN4sS3a/PQACtUQOp+Hg1LcfrbZr4o3dFRDy/+V8bPdXcOzHBLLoK75aZpwZr1Bbf6z499fHYsMZRem1dOhNxW+G+H63vZQ1+kgspT2VoCrexNiWQpBqDEhaYmt8+qwxgIzpGY4CZDid24VCaGW0B+tsvIk8ywr+YMIrCta1VeYd1RmMj31eBOOSiJ4a29KgXV7RLhh0G1AZotQxuLsH0vqRWb09QWBVQMI6LlMzj4p6KsVXWX8D9wes5wH5E1Aoc51nbB6GSMmpY/U8pxgdqyfO/4qZAKSjbmYp+TBX0WVllI2kZiqaeUWtR+4G3YxAlZ9Hj0EeXJLS1llaHOthdp9cd7D7MtjQAhe7X1BLAwQKAAAACAD6Qrxc0nf8t20AAAB7AAAAHQAAAHdvcmQvX3JlbHMvZm9udFRhYmxlLnhtbC5yZWxzTYxBDgIhDEWvQrp3ii6MMcPMbg5g9AANViAOhVBiPL4sXf689/68fvNuPtw0FXFwnCwYFl+eSYKDx307XGBd5hvv1IehMVU1IxF1EHuvV0T1kTPpVCrLIK/SMvUxW8BK/k2B8WTtGdv/B+DyA1BLAQIUAAoAAAAAAPpCvFwAAAAAAAAAAAAAAAAFAAAAAAAAAAAAEAAAAAAAAAB3b3JkL1BLAQIUAAoAAAAAAPpCvFwAAAAAAAAAAAAAAAALAAAAAAAAAAAAEAAAACMAAAB3b3JkL19yZWxzL1BLAQIUAAoAAAAIAPpCvFwoPcZYqAEAACsHAAAcAAAAAAAAAAAAAAAAAEwAAAB3b3JkL19yZWxzL2RvY3VtZW50LnhtbC5yZWxzUEsBAhQACgAAAAgA+kK8XEViALp1DgAABZQAABEAAAAAAAAAAAAAAAAALgIAAHdvcmQvZG9jdW1lbnQueG1sUEsBAhQACgAAAAgA+kK8XCP/KSgRAwAAMREAAA8AAAAAAAAAAAAAAAAA0hAAAHdvcmQvc3R5bGVzLnhtbFBLAQIUAAoAAAAAAPpCvFwAAAAAAAAAAAAAAAAJAAAAAAAAAAAAEAAAABAUAABkb2NQcm9wcy9QSwECFAAKAAAACAD6QrxcVPAJkzcBAACDAgAAEQAAAAAAAAAAAAAAAAA3FAAAZG9jUHJvcHMvY29yZS54bWxQSwECFAAKAAAACAD6QrxcFML9eowCAAAgDgAAEgAAAAAAAAAAAAAAAACdFQAAd29yZC9udW1iZXJpbmcueG1sUEsBAhQACgAAAAAA+kK8XAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAQAAAAWRgAAF9yZWxzL1BLAQIUAAoAAAAIAPpCvFwfo5KW5gAAAM4CAAALAAAAAAAAAAAAAAAAAH0YAABfcmVscy8ucmVsc1BLAQIUAAoAAAAIAPpCvFygjo6lmgEAADgIAAATAAAAAAAAAAAAAAAAAIwZAABbQ29udGVudF9UeXBlc10ueG1sUEsBAhQACgAAAAgA+kK8XFh52yKSAAAA5AAAABMAAAAAAAAAAAAAAAAAVxsAAGRvY1Byb3BzL2N1c3RvbS54bWxQSwECFAAKAAAACAD6Qrxc4vyd2pMAAADmAAAAEAAAAAAAAAAAAAAAAAAaHAAAZG9jUHJvcHMvYXBwLnhtbFBLAQIUAAoAAAAIAPpCvFycicmRzgEAAK0GAAASAAAAAAAAAAAAAAAAANscAAB3b3JkL2Zvb3Rub3Rlcy54bWxQSwECFAAKAAAACAD6Qrxc0nf8t20AAAB7AAAAHQAAAAAAAAAAAAAAAADZHgAAd29yZC9fcmVscy9mb290bm90ZXMueG1sLnJlbHNQSwECFAAKAAAACAD6QrxcP0qOjcEBAACSBgAAEQAAAAAAAAAAAAAAAACBHwAAd29yZC9lbmRub3Rlcy54bWxQSwECFAAKAAAACAD6Qrxc0nf8t20AAAB7AAAAHAAAAAAAAAAAAAAAAABxIQAAd29yZC9fcmVscy9lbmRub3Rlcy54bWwucmVsc1BLAQIUAAoAAAAIAPpCvFxNn8rKoQEAAHMFAAARAAAAAAAAAAAAAAAAABgiAAB3b3JkL3NldHRpbmdzLnhtbFBLAQIUAAoAAAAIAPpCvFyLhjnExQEAAMYIAAARAAAAAAAAAAAAAAAAAOgjAAB3b3JkL2NvbW1lbnRzLnhtbFBLAQIUAAoAAAAIAPpCvFzSd/y3bQAAAHsAAAAcAAAAAAAAAAAAAAAAANwlAAB3b3JkL19yZWxzL2NvbW1lbnRzLnhtbC5yZWxzUEsBAhQACgAAAAgA+kK8XGPtXtYdAQAAQwMAABIAAAAAAAAAAAAAAAAAgyYAAHdvcmQvZm9udFRhYmxlLnhtbFBLAQIUAAoAAAAIAPpCvFzSd/y3bQAAAHsAAAAdAAAAAAAAAAAAAAAAANAnAAB3b3JkL19yZWxzL2ZvbnRUYWJsZS54bWwucmVsc1BLBQYAAAAAFgAWAHwFAAB4KAAAAAA=';
+document.getElementById('cvdl').addEventListener('click',e=>{
+  e.preventDefault();
+  const bytes=atob(cvData);
+  const ab=new ArrayBuffer(bytes.length);
+  const ia=new Uint8Array(ab);
+  for(let i=0;i<bytes.length;i++) ia[i]=bytes.charCodeAt(i);
+  const blob=new Blob([ab],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='Ivan_Olajide_Joseph_CV.docx';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+});
+
+// ── WHATSAPP FORM ──
+function sendWA(){
+  const n=document.getElementById('fn').value.trim();
+  const e=document.getElementById('fe').value.trim();
+  const m=document.getElementById('fm').value.trim();
+  if(!n||!e||!m){alert('Please fill all fields.');return;}
+  const msg=`Hi Ivan! I'm ${n} (${e}).\n\n${m}`;
+  window.open('https://wa.me/2348033090230?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ── HERO PARALLAX ──
+document.addEventListener('mousemove',e=>{
+  const img=document.querySelector('.photo-frame img');
+  if(!img) return;
+  const x=(e.clientX/innerWidth-.5)*6;
+  const y=(e.clientY/innerHeight-.5)*6;
+  img.style.transform=`scale(1.03) translate(${x}px,${y}px)`;
+});
+</script>
+</body>
+</html>
