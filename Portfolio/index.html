@@ -479,11 +479,72 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 4re
 
 /* RESPONSIVE */
 @media(max-width:1100px){
-  #home{grid-template-columns:1fr;padding-bottom:6rem}
-  .hero-right{display:none}
-  #about,#contact{grid-template-columns:1fr}
-  .work-grid{grid-template-columns:1fr 1fr}
-  .skills-grid{grid-template-columns:1fr 1fr}
+
+  #home{
+    grid-template-columns:1fr;
+    padding:5rem 1.5rem 7rem;
+    gap:3rem;
+    text-align:center;
+  }
+
+  .hero-left{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .hero-sub{
+    max-width:100%;
+  }
+
+  .hero-right{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+  }
+
+  .photo-frame{
+    width:min(320px,85vw);
+  }
+
+  .photo-frame img{
+    width:100%;
+    aspect-ratio:3/4;
+    object-fit:cover;
+    object-position:center top;
+    border-radius:12px;
+  }
+
+  .exp-badge{
+    right:0;
+    bottom:1rem;
+  }
+
+  .chip-1{
+    left:0;
+  }
+
+  .chip-2{
+    left:-0.5rem;
+  }
+
+  .chip-3{
+    left:0;
+  }
+
+  #about,
+  #contact{
+    grid-template-columns:1fr;
+  }
+
+  .work-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .skills-grid{
+    grid-template-columns:1fr 1fr;
+  }
 }
 @media(max-width:768px){
   :root{--sidebar:0px}
